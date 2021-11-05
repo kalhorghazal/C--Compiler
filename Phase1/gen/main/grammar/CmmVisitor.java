@@ -95,6 +95,18 @@ public interface CmmVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefaultFunctionStatement(CmmParser.DefaultFunctionStatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CmmParser#displayStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDisplayStatement(CmmParser.DisplayStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CmmParser#sizeStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSizeStatement(CmmParser.SizeStatementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CmmParser#appendStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -262,6 +274,18 @@ public interface CmmVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitOtherExpression(CmmParser.OtherExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CmmParser#necessarySpace}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNecessarySpace(CmmParser.NecessarySpaceContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CmmParser#optionalSpace}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOptionalSpace(CmmParser.OptionalSpaceContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CmmParser#begin}.
 	 * @param ctx the parse tree

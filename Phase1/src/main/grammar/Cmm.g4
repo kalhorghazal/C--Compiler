@@ -2,15 +2,15 @@ grammar Cmm;
 
 cmm: program EOF;
 
-program: (struct)* (function)* main;
+program: (struct + NL)* (function NL)* NL* main;
 
 main: MAIN LPAR RPAR singleOrMultiStatements;
 
-struct: STRUCT begin structBody end;
+struct: STRUCT IDENTIFIER begin structBody end;
 
-function: (type | VOID) IDENTIFIER LPAR functionArguments RPAR singleOrMultiStatements (returnStatement)?;
+function: (type | VOID) IDENTIFIER LPAR functionArguments RPAR singleOrMultiStatements;
 
-structBody: (varDeclaration | method)*;
+structBody: (varDeclaration necessarySpace)* varDeclaration (SEMICOLLON)? | method*;
 
 method: type IDENTIFIER LPAR functionArguments RPAR methodBody;
 
@@ -20,15 +20,19 @@ setter: SET singleOrMultiStatements;
 
 getter: GET singleOrMultiStatements returnStatement;
 
-varDeclaration: type (assignmentStatement | IDENTIFIER);
+varDeclaration: type IDENTIFIER ('=' expression)? (',' IDENTIFIER ('=' expression)?)*;
 
-statement: doWhileStatement | whileStatement | ifStatement | assignmentStatement | defaultFunctionStatement/* | functionCallStatement |*/;
+statement: doWhileStatement | whileStatement | ifStatement | varDeclaration | assignmentStatement | defaultFunctionStatement | /*functionCallStatement |*/ returnStatement;
 
 assignmentStatement: orExpression ASSIGN expression;
 
-defaultFunctionStatement: ((DISPLAY | SIZE) LPAR expression RPAR) | appendStatement;
+defaultFunctionStatement: displayStatement | sizeStatement | appendStatement;
 
-appendStatement: APPEND LPAR COMMA expression RPAR;
+displayStatement: DISPLAY LPAR expression RPAR;
+
+sizeStatement: SIZE LPAR expression RPAR;
+
+appendStatement: APPEND LPAR orExpression COMMA expression RPAR;
 
 returnStatement: RETURN expression;
 
@@ -64,7 +68,7 @@ whileStatement: WHILE LPAR expression RPAR singleOrMultiStatements;
 
 ifStatement: IF LPAR expression RPAR singleOrMultiStatements (ELSE singleOrMultiStatements)?;
 
-singleOrMultiStatements: begin statement (NL | SEMICOLLON) (statement)+ end | statement;
+singleOrMultiStatements: begin (statement necessarySpace)* statement (SEMICOLLON)? end | NL+ statement optionalSpace;
 
 expression: orExpression (ASSIGN expression)?;
 
@@ -86,9 +90,13 @@ accessExpression: otherExpression ((DOT IDENTIFIER LPAR functionCallArguments RP
 
 otherExpression: values | IDENTIFIER | LPAR (expression) RPAR | IDENTIFIER LBRACK expression RBRACK;
 
-begin: BEGIN NL;
+necessarySpace: (SEMICOLLON + NL+) | NL+ | SEMICOLLON;
 
-end: NL END;
+optionalSpace: (SEMICOLLON)? NL*;
+
+begin: BEGIN NL+;
+
+end: NL+ END;
 
 STRUCT: 'struct';
 MAIN: 'main';

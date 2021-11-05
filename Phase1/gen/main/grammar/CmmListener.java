@@ -148,6 +148,26 @@ public interface CmmListener extends ParseTreeListener {
 	 */
 	void exitDefaultFunctionStatement(CmmParser.DefaultFunctionStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CmmParser#displayStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterDisplayStatement(CmmParser.DisplayStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CmmParser#displayStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitDisplayStatement(CmmParser.DisplayStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CmmParser#sizeStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterSizeStatement(CmmParser.SizeStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CmmParser#sizeStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitSizeStatement(CmmParser.SizeStatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CmmParser#appendStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -427,6 +447,26 @@ public interface CmmListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitOtherExpression(CmmParser.OtherExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CmmParser#necessarySpace}.
+	 * @param ctx the parse tree
+	 */
+	void enterNecessarySpace(CmmParser.NecessarySpaceContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CmmParser#necessarySpace}.
+	 * @param ctx the parse tree
+	 */
+	void exitNecessarySpace(CmmParser.NecessarySpaceContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CmmParser#optionalSpace}.
+	 * @param ctx the parse tree
+	 */
+	void enterOptionalSpace(CmmParser.OptionalSpaceContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CmmParser#optionalSpace}.
+	 * @param ctx the parse tree
+	 */
+	void exitOptionalSpace(CmmParser.OptionalSpaceContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CmmParser#begin}.
 	 * @param ctx the parse tree

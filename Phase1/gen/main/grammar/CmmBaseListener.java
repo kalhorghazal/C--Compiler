@@ -184,6 +184,30 @@ public class CmmBaseListener implements CmmListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDisplayStatement(CmmParser.DisplayStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDisplayStatement(CmmParser.DisplayStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSizeStatement(CmmParser.SizeStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSizeStatement(CmmParser.SizeStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterAppendStatement(CmmParser.AppendStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -515,6 +539,30 @@ public class CmmBaseListener implements CmmListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitOtherExpression(CmmParser.OtherExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNecessarySpace(CmmParser.NecessarySpaceContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNecessarySpace(CmmParser.NecessarySpaceContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOptionalSpace(CmmParser.OptionalSpaceContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOptionalSpace(CmmParser.OptionalSpaceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
