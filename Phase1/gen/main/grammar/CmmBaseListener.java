@@ -412,13 +412,49 @@ public class CmmBaseListener implements CmmListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSingleOrMultiStatements(CmmParser.SingleOrMultiStatementsContext ctx) { }
+	@Override public void enterStatementScope(CmmParser.StatementScopeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSingleOrMultiStatements(CmmParser.SingleOrMultiStatementsContext ctx) { }
+	@Override public void exitStatementScope(CmmParser.StatementScopeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFunctionScope(CmmParser.FunctionScopeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunctionScope(CmmParser.FunctionScopeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMultiStatements(CmmParser.MultiStatementsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMultiStatements(CmmParser.MultiStatementsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSingleStatement(CmmParser.SingleStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSingleStatement(CmmParser.SingleStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -544,25 +580,13 @@ public class CmmBaseListener implements CmmListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNecessarySpace(CmmParser.NecessarySpaceContext ctx) { }
+	@Override public void enterInteraSpace(CmmParser.InteraSpaceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNecessarySpace(CmmParser.NecessarySpaceContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterOptionalSpace(CmmParser.OptionalSpaceContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitOptionalSpace(CmmParser.OptionalSpaceContext ctx) { }
+	@Override public void exitInteraSpace(CmmParser.InteraSpaceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

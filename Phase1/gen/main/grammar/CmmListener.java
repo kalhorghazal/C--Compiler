@@ -338,15 +338,45 @@ public interface CmmListener extends ParseTreeListener {
 	 */
 	void exitIfStatement(CmmParser.IfStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CmmParser#singleOrMultiStatements}.
+	 * Enter a parse tree produced by {@link CmmParser#statementScope}.
 	 * @param ctx the parse tree
 	 */
-	void enterSingleOrMultiStatements(CmmParser.SingleOrMultiStatementsContext ctx);
+	void enterStatementScope(CmmParser.StatementScopeContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link CmmParser#singleOrMultiStatements}.
+	 * Exit a parse tree produced by {@link CmmParser#statementScope}.
 	 * @param ctx the parse tree
 	 */
-	void exitSingleOrMultiStatements(CmmParser.SingleOrMultiStatementsContext ctx);
+	void exitStatementScope(CmmParser.StatementScopeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CmmParser#functionScope}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionScope(CmmParser.FunctionScopeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CmmParser#functionScope}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionScope(CmmParser.FunctionScopeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CmmParser#multiStatements}.
+	 * @param ctx the parse tree
+	 */
+	void enterMultiStatements(CmmParser.MultiStatementsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CmmParser#multiStatements}.
+	 * @param ctx the parse tree
+	 */
+	void exitMultiStatements(CmmParser.MultiStatementsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CmmParser#singleStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterSingleStatement(CmmParser.SingleStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CmmParser#singleStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitSingleStatement(CmmParser.SingleStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CmmParser#expression}.
 	 * @param ctx the parse tree
@@ -448,25 +478,15 @@ public interface CmmListener extends ParseTreeListener {
 	 */
 	void exitOtherExpression(CmmParser.OtherExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CmmParser#necessarySpace}.
+	 * Enter a parse tree produced by {@link CmmParser#interaSpace}.
 	 * @param ctx the parse tree
 	 */
-	void enterNecessarySpace(CmmParser.NecessarySpaceContext ctx);
+	void enterInteraSpace(CmmParser.InteraSpaceContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link CmmParser#necessarySpace}.
+	 * Exit a parse tree produced by {@link CmmParser#interaSpace}.
 	 * @param ctx the parse tree
 	 */
-	void exitNecessarySpace(CmmParser.NecessarySpaceContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link CmmParser#optionalSpace}.
-	 * @param ctx the parse tree
-	 */
-	void enterOptionalSpace(CmmParser.OptionalSpaceContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CmmParser#optionalSpace}.
-	 * @param ctx the parse tree
-	 */
-	void exitOptionalSpace(CmmParser.OptionalSpaceContext ctx);
+	void exitInteraSpace(CmmParser.InteraSpaceContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CmmParser#begin}.
 	 * @param ctx the parse tree

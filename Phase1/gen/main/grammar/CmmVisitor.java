@@ -209,11 +209,29 @@ public interface CmmVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfStatement(CmmParser.IfStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link CmmParser#singleOrMultiStatements}.
+	 * Visit a parse tree produced by {@link CmmParser#statementScope}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSingleOrMultiStatements(CmmParser.SingleOrMultiStatementsContext ctx);
+	T visitStatementScope(CmmParser.StatementScopeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CmmParser#functionScope}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionScope(CmmParser.FunctionScopeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CmmParser#multiStatements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiStatements(CmmParser.MultiStatementsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CmmParser#singleStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSingleStatement(CmmParser.SingleStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CmmParser#expression}.
 	 * @param ctx the parse tree
@@ -275,17 +293,11 @@ public interface CmmVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitOtherExpression(CmmParser.OtherExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link CmmParser#necessarySpace}.
+	 * Visit a parse tree produced by {@link CmmParser#interaSpace}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNecessarySpace(CmmParser.NecessarySpaceContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link CmmParser#optionalSpace}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitOptionalSpace(CmmParser.OptionalSpaceContext ctx);
+	T visitInteraSpace(CmmParser.InteraSpaceContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CmmParser#begin}.
 	 * @param ctx the parse tree

@@ -2,25 +2,25 @@ grammar Cmm;
 
 cmm: program EOF;
 
-program: NL* (struct + NL+)* (function NL+)* NL* main;
+program: NL* (struct NL+)* (function NL+)* NL* main NL*;
 
-main: MAIN LPAR RPAR singleOrMultiStatements;
+main: MAIN LPAR RPAR functionScope;
 
 struct: STRUCT IDENTIFIER structBody;
 
-function: (type | VOID) IDENTIFIER LPAR functionArguments RPAR singleOrMultiStatements;
+function: (type | VOID) IDENTIFIER LPAR functionArguments RPAR functionScope;
 
-structBody: singleOrMultiStatements | NL method;
+structBody: begin ((varDeclaration | method) interaSpace)* (varDeclaration | method) (SEMICOLLON)? end | NL+ (varDeclaration | method);
 
 method: type IDENTIFIER LPAR functionArguments RPAR methodBody;
 
-methodBody: begin setter NL getter end;
+methodBody: begin setter NL+ getter end;
 
-setter: SET singleOrMultiStatements;
+setter: SET functionScope;
 
-getter: GET singleOrMultiStatements;
+getter: GET functionScope;
 
-varDeclaration: type IDENTIFIER ('=' expression)? (',' IDENTIFIER ('=' expression)?)*;
+varDeclaration: type IDENTIFIER (ASSIGN expression)? (COMMA IDENTIFIER (ASSIGN expression)?)*;
 
 statement: doWhileStatement | whileStatement | ifStatement | varDeclaration | assignmentStatement | defaultFunctionStatement | functionCallStatement | returnStatement;
 
@@ -34,7 +34,7 @@ sizeStatement: SIZE LPAR expression RPAR;
 
 appendStatement: APPEND LPAR expression COMMA expression RPAR;
 
-returnStatement: RETURN expression;
+returnStatement: RETURN (expression)?;
 
 functionArguments: (variableWithType)(() | (COMMA variableWithType)*) | ();
 
@@ -60,13 +60,19 @@ functionCallStatement: otherExpression ((DOT IDENTIFIER (LPAR functionCallArgume
 
 functionCallArguments: expression (() | (COMMA expression)*) | ();
 
-doWhileStatement: DO singleOrMultiStatements WHILE LPAR expression RPAR;
+doWhileStatement: DO statementScope NL+ WHILE LPAR expression RPAR;
 
-whileStatement: WHILE LPAR expression RPAR singleOrMultiStatements;
+whileStatement: WHILE LPAR expression RPAR statementScope;
 
-ifStatement: IF LPAR expression RPAR singleOrMultiStatements (ELSE singleOrMultiStatements)?;
+ifStatement: IF LPAR expression RPAR statementScope (NL+ ELSE statementScope)?;
 
-singleOrMultiStatements: begin (statement necessarySpace)* statement (SEMICOLLON)? end | NL+ statement optionalSpace;
+statementScope: begin multiStatements end (SEMICOLLON)? | singleStatement;
+
+functionScope: begin multiStatements end | singleStatement;
+
+multiStatements: (statement interaSpace)* statement (SEMICOLLON)?;
+
+singleStatement: NL+ statement (SEMICOLLON)?;
 
 expression: orExpression (ASSIGN expression)?;
 
@@ -88,9 +94,7 @@ accessExpression: otherExpression ((DOT IDENTIFIER LPAR functionCallArguments RP
 
 otherExpression: values | IDENTIFIER | LPAR (expression) RPAR | IDENTIFIER LBRACK expression RBRACK;
 
-necessarySpace: (SEMICOLLON + NL+) | NL+ | SEMICOLLON;
-
-optionalSpace: (SEMICOLLON)? NL*;
+interaSpace: (SEMICOLLON + NL+) | NL+ | SEMICOLLON;
 
 begin: BEGIN NL+;
 
