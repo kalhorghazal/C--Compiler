@@ -10,7 +10,7 @@ struct: STRUCT IDENTIFIER structBody;
 
 function: (type | VOID) IDENTIFIER LPAR functionArguments RPAR functionScope;
 
-structBody: functionScope | NL method NL+;
+structBody: begin ((varDeclaration | method) interaSpace)* (varDeclaration | method) (SEMICOLLON)? end | NL+ (varDeclaration | method);
 
 method: type IDENTIFIER LPAR functionArguments RPAR methodBody;
 
@@ -66,8 +66,6 @@ whileStatement: WHILE LPAR expression RPAR statementScope;
 
 ifStatement: IF LPAR expression RPAR statementScope (NL+ ELSE statementScope)?;
 
-//singleOrMultiStatements: begin (statement interaSpace)* statement (SEMICOLLON)? end (SEMICOLLON)? | NL+ statement (SEMICOLLON)?;
-
 statementScope: begin multiStatements end (SEMICOLLON)? | singleStatement;
 
 functionScope: begin multiStatements end | singleStatement;
@@ -97,8 +95,6 @@ accessExpression: otherExpression ((DOT IDENTIFIER LPAR functionCallArguments RP
 otherExpression: values | IDENTIFIER | LPAR (expression) RPAR | IDENTIFIER LBRACK expression RBRACK;
 
 interaSpace: (SEMICOLLON + NL+) | NL+ | SEMICOLLON;
-
-//interSpace: (SEMICOLLON)? NL+;
 
 begin: BEGIN NL+;
 

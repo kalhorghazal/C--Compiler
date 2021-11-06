@@ -5,8 +5,6 @@ int x()
     d = c    
     
 main() begin
-    do 
-    s = f
-    while(x=1);
+    x.F(A=4, F=X) = J
 
     end

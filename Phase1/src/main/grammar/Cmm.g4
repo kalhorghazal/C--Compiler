@@ -90,7 +90,7 @@ multiplicativeExpression: unaryExpression ((MULT | DIVIDE) unaryExpression)*;
 
 unaryExpression: NOT accessExpression | MINUS accessExpression | accessExpression;
 
-accessExpression: otherExpression ((DOT IDENTIFIER LPAR functionCallArguments RPAR) | (DOT IDENTIFIER) | (LBRACK expression RBRACK))*;
+accessExpression: otherExpression (((DOT IDENTIFIER)? LPAR functionCallArguments RPAR) | (DOT IDENTIFIER) | (LBRACK expression RBRACK))*;
 
 otherExpression: values | IDENTIFIER | LPAR (expression) RPAR | IDENTIFIER LBRACK expression RBRACK;
 
