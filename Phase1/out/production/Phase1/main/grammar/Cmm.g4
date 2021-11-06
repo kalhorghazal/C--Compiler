@@ -60,19 +60,19 @@ functionCallStatement: otherExpression ((DOT IDENTIFIER (LPAR functionCallArgume
 
 functionCallArguments: expression (() | (COMMA expression)*) | ();
 
-doWhileStatement: DO statementScope NL+ WHILE (LPAR expression RPAR | expression);
+doWhileStatement: DO functionScope NL* WHILE (LPAR expression RPAR | expression);
 
 whileStatement: WHILE (LPAR expression RPAR | expression) statementScope;
 
-ifStatement: IF (LPAR expression RPAR | expression) statementScope (NL+ ELSE statementScope)?;
+ifStatement: IF (LPAR expression RPAR | expression) (functionScope NL* ELSE)? statementScope;
 
-statementScope: begin multiStatements end (SEMICOLLON)? | singleStatement;
+statementScope: multiStatements | singleStatement;
 
-functionScope: begin multiStatements end | singleStatement;
+functionScope: multiStatements | singleStatement (SEMICOLLON)?;
 
-multiStatements: (statement interaSpace)* statement (SEMICOLLON)?;
+multiStatements: begin (statement interaSpace)* statement (SEMICOLLON)? end;
 
-singleStatement: NL+ statement (SEMICOLLON)?;
+singleStatement: NL+ statement;
 
 expression: orExpression (ASSIGN expression)?;
 
@@ -94,7 +94,7 @@ accessExpression: otherExpression (((DOT IDENTIFIER)? LPAR functionCallArguments
 
 otherExpression: values | defaultFunctionStatement | IDENTIFIER | LPAR (expression) RPAR | IDENTIFIER LBRACK expression RBRACK;
 
-interaSpace: (SEMICOLLON + NL+) | NL+ | SEMICOLLON;
+interaSpace: (SEMICOLLON NL+) | NL+ | SEMICOLLON;
 
 begin: BEGIN NL+;
 
