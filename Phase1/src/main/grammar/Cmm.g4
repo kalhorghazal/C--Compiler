@@ -2,27 +2,27 @@ grammar Cmm;
 
 cmm: program EOF;
 
-program: (struct + NL)* (function NL)* NL* main;
+program: NL* (struct + NL+)* (function NL+)* NL* main;
 
 main: MAIN LPAR RPAR singleOrMultiStatements;
 
-struct: STRUCT IDENTIFIER begin structBody end;
+struct: STRUCT IDENTIFIER structBody;
 
 function: (type | VOID) IDENTIFIER LPAR functionArguments RPAR singleOrMultiStatements;
 
-structBody: (varDeclaration necessarySpace)* varDeclaration (SEMICOLLON)? | method*;
+structBody: singleOrMultiStatements | NL method;
 
 method: type IDENTIFIER LPAR functionArguments RPAR methodBody;
 
-methodBody: begin setter getter end;
+methodBody: begin setter NL getter end;
 
 setter: SET singleOrMultiStatements;
 
-getter: GET singleOrMultiStatements returnStatement;
+getter: GET singleOrMultiStatements;
 
 varDeclaration: type IDENTIFIER ('=' expression)? (',' IDENTIFIER ('=' expression)?)*;
 
-statement: doWhileStatement | whileStatement | ifStatement | varDeclaration | assignmentStatement | defaultFunctionStatement | /*functionCallStatement |*/ returnStatement;
+statement: doWhileStatement | whileStatement | ifStatement | varDeclaration | assignmentStatement | defaultFunctionStatement | functionCallStatement | returnStatement;
 
 assignmentStatement: orExpression ASSIGN expression;
 
@@ -58,7 +58,7 @@ boolValue: TRUE | FALSE;
 
 listValus: LBRACK functionCallArguments RBRACK;
 
-//functionCallStatement: ;
+functionCallStatement: otherExpression ((DOT IDENTIFIER (LPAR functionCallArguments RPAR)+) | (DOT IDENTIFIER) | (LBRACK expression RBRACK))* ((DOT IDENTIFIER)? (LPAR functionCallArguments RPAR)+);
 
 functionCallArguments: expression (() | (COMMA expression)*) | ();
 
