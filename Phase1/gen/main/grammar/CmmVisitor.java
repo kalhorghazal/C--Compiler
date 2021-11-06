@@ -179,12 +179,6 @@ public interface CmmVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBoolValue(CmmParser.BoolValueContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link CmmParser#listValus}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitListValus(CmmParser.ListValusContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link CmmParser#functionCallStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

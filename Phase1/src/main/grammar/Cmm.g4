@@ -32,7 +32,7 @@ displayStatement: DISPLAY LPAR expression RPAR;
 
 sizeStatement: SIZE LPAR expression RPAR;
 
-appendStatement: APPEND LPAR orExpression COMMA expression RPAR;
+appendStatement: APPEND LPAR expression COMMA expression RPAR;
 
 returnStatement: RETURN expression;
 
@@ -52,11 +52,9 @@ typesWithComma: type (() | (COMMA type)*);
 
 primitiveDataType: INT | BOOL;
 
-values: boolValue | INT_VALUE | listValus;
+values: boolValue | INT_VALUE;
 
 boolValue: TRUE | FALSE;
-
-listValus: LBRACK functionCallArguments RBRACK;
 
 functionCallStatement: otherExpression ((DOT IDENTIFIER (LPAR functionCallArguments RPAR)+) | (DOT IDENTIFIER) | (LBRACK expression RBRACK))* ((DOT IDENTIFIER)? (LPAR functionCallArguments RPAR)+);
 
