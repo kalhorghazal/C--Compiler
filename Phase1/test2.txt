@@ -1,0 +1,70 @@
+struct House begin
+    int price;
+    int area(int _area) begin
+        set begin
+            area = _area
+            price = 1000 * area
+        end
+        get
+            return area
+    end
+    struct Room room
+end
+
+struct Room begin
+    int area;
+end
+
+list#int f1(int num) begin
+    list#int a
+    int i; i=0;
+    while(i < n) begin
+        append(a, i)
+        i = i + 1
+    end
+    return a;
+end
+
+list#int f2(int num)begin
+    list#int a
+    int i; i=0
+    while(i < num) begin
+        append(a, i*i)
+        i = i + 1
+    end
+    return a
+end
+
+fptr<int -> list#int> f3(bool choice, int dummy, struct House h1) begin
+    display(dummy)
+    display(h1.price)
+    if choice
+        return f1
+    else
+        return f2
+end
+
+main()begin
+    fptr<int -> list#int> functionPointer
+    struct House h1,h2,h3,h4
+    struct Room r1
+
+    r1.area = 12
+    h1.room = r1
+    h1.area = (90)
+
+    functionPointer = f3(true, 5*2+3-2*2+(-1) ,h1)
+    list#int numbers = functionPointer(15)
+
+    list#list#struct House houses
+
+    list#struct House alley1
+    list#struct House alley2
+
+    append(alley1, h2)
+    append(alley1, h3)
+    display(size(alley1))
+    append(houses, alley1)
+    append(houses, alley2)
+    append(houses[1], h4)
+end

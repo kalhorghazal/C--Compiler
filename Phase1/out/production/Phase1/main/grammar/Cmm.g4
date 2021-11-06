@@ -92,7 +92,7 @@ unaryExpression: NOT accessExpression | MINUS accessExpression | accessExpressio
 
 accessExpression: otherExpression (((DOT IDENTIFIER)? LPAR functionCallArguments RPAR) | (DOT IDENTIFIER) | (LBRACK expression RBRACK))*;
 
-otherExpression: values | IDENTIFIER | LPAR (expression) RPAR | IDENTIFIER LBRACK expression RBRACK;
+otherExpression: values | defaultFunctionStatement | IDENTIFIER | LPAR (expression) RPAR | IDENTIFIER LBRACK expression RBRACK;
 
 interaSpace: (SEMICOLLON + NL+) | NL+ | SEMICOLLON;
 
