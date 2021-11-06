@@ -60,11 +60,11 @@ functionCallStatement: otherExpression ((DOT IDENTIFIER (LPAR functionCallArgume
 
 functionCallArguments: expression (() | (COMMA expression)*) | ();
 
-doWhileStatement: DO statementScope NL+ WHILE LPAR expression RPAR;
+doWhileStatement: DO statementScope NL+ WHILE (LPAR expression RPAR | expression);
 
-whileStatement: WHILE LPAR expression RPAR statementScope;
+whileStatement: WHILE (LPAR expression RPAR | expression) statementScope;
 
-ifStatement: IF LPAR expression RPAR statementScope (NL+ ELSE statementScope)?;
+ifStatement: IF (LPAR expression RPAR | expression) statementScope (NL+ ELSE statementScope)?;
 
 statementScope: begin multiStatements end (SEMICOLLON)? | singleStatement;
 
@@ -90,7 +90,7 @@ multiplicativeExpression: unaryExpression ((MULT | DIVIDE) unaryExpression)*;
 
 unaryExpression: NOT accessExpression | MINUS accessExpression | accessExpression;
 
-accessExpression: otherExpression ((DOT IDENTIFIER LPAR functionCallArguments RPAR) | (DOT IDENTIFIER) | (LBRACK expression RBRACK))*;
+accessExpression: otherExpression (((DOT IDENTIFIER)? LPAR functionCallArguments RPAR) | (DOT IDENTIFIER) | (LBRACK expression RBRACK))*;
 
 otherExpression: values | IDENTIFIER | LPAR (expression) RPAR | IDENTIFIER LBRACK expression RBRACK;
 

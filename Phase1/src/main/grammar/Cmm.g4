@@ -60,11 +60,11 @@ functionCallStatement: otherExpression ((DOT IDENTIFIER (LPAR functionCallArgume
 
 functionCallArguments: expression (() | (COMMA expression)*) | ();
 
-doWhileStatement: DO statementScope NL+ WHILE LPAR expression RPAR;
+doWhileStatement: DO statementScope NL+ WHILE (LPAR expression RPAR | expression);
 
-whileStatement: WHILE LPAR expression RPAR statementScope;
+whileStatement: WHILE (LPAR expression RPAR | expression) statementScope;
 
-ifStatement: IF LPAR expression RPAR statementScope (NL+ ELSE statementScope)?;
+ifStatement: IF (LPAR expression RPAR | expression) statementScope (NL+ ELSE statementScope)?;
 
 statementScope: begin multiStatements end (SEMICOLLON)? | singleStatement;
 
