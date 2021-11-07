@@ -1,26 +1,37 @@
 grammar Cmm;
 
+@members{
+    void print(String str, Boolean... params){
+        assert params.length <= 1;
+        boolean inline = params.length > 0 ? params[0].booleanValue() : false;
+        if (inline) {
+            System.out.print(str);
+        } else
+            System.out.println(str);
+    }
+}
+
 cmm: program EOF;
 
 program: NL* (struct NL+)* (function NL+)* NL* main NL*;
 
-main: MAIN LPAR RPAR functionScope;
+main: MAIN {print("Main");} LPAR RPAR functionScope;
 
-struct: STRUCT IDENTIFIER structBody;
+struct: STRUCT id=IDENTIFIER {print("StructDec : " + $id.text);} structBody;
 
-function: (type | VOID) IDENTIFIER LPAR functionArguments RPAR functionScope;
+function: (type | VOID) id=IDENTIFIER {print("FunctionDec : " + $id.text);} LPAR functionArguments RPAR functionScope;
 
 structBody: begin ((varDeclaration | method) interaSpace)* (varDeclaration | method) (SEMICOLLON)? end | NL+ (varDeclaration | method);
 
-method: type IDENTIFIER LPAR functionArguments RPAR methodBody;
+method: type id=IDENTIFIER {print("VarDec : " + $id.getText());} LPAR functionArguments RPAR methodBody;
 
 methodBody: begin setter NL+ getter end;
 
-setter: SET functionScope;
+setter: SET {print("Setter");} functionScope;
 
-getter: GET functionScope;
+getter: GET {print("Getter");} functionScope;
 
-varDeclaration: type IDENTIFIER (ASSIGN expression)? (COMMA IDENTIFIER (ASSIGN expression)?)*;
+varDeclaration: type id=IDENTIFIER {print("VarDec : " + $id.text);} (ASSIGN expression)? (COMMA id=IDENTIFIER {print("VarDec : " + $id.text);} (ASSIGN expression)?)*;
 
 statement: doWhileStatement | whileStatement | ifStatement | varDeclaration | assignmentStatement | defaultFunctionStatement | functionCallStatement | returnStatement;
 
@@ -28,17 +39,17 @@ assignmentStatement: orExpression ASSIGN expression;
 
 defaultFunctionStatement: displayStatement | sizeStatement | appendStatement;
 
-displayStatement: DISPLAY LPAR expression RPAR;
+displayStatement: DISPLAY {print("Built-in : display");} LPAR expression RPAR;
 
-sizeStatement: SIZE LPAR expression RPAR;
+sizeStatement: SIZE {print("Size");} LPAR expression RPAR;
 
-appendStatement: APPEND LPAR expression COMMA expression RPAR;
+appendStatement: APPEND {print("Append");} LPAR expression COMMA expression RPAR;
 
-returnStatement: RETURN (expression)?;
+returnStatement: RETURN {print("Return");} (expression)?;
 
 functionArguments: (variableWithType)(() | (COMMA variableWithType)*) | ();
 
-variableWithType: type IDENTIFIER;
+variableWithType: type id=IDENTIFIER {print("ArgumentDec : " + $id.getText());};
 
 type: primitiveDataType | listType | functioPointerType | structType;
 
@@ -56,15 +67,15 @@ values: boolValue | INT_VALUE;
 
 boolValue: TRUE | FALSE;
 
-functionCallStatement: otherExpression ((DOT IDENTIFIER (LPAR functionCallArguments RPAR)+) | (DOT IDENTIFIER) | (LBRACK expression RBRACK))* ((DOT IDENTIFIER)? (LPAR functionCallArguments RPAR)+);
+functionCallStatement: {print("FunctionCall");} otherExpression ((DOT IDENTIFIER (LPAR functionCallArguments RPAR)+) | (DOT IDENTIFIER) | (LBRACK expression RBRACK))* ((DOT IDENTIFIER)? (LPAR functionCallArguments RPAR)+);
 
 functionCallArguments: expression (() | (COMMA expression)*) | ();
 
-doWhileStatement: DO functionScope NL* WHILE (LPAR expression RPAR | expression);
+doWhileStatement: DO {print("Loop : do...while");} functionScope NL* WHILE (LPAR expression RPAR | expression);
 
-whileStatement: WHILE (LPAR expression RPAR | expression) statementScope;
+whileStatement: WHILE {print("Loop : while");} (LPAR expression RPAR | expression) statementScope;
 
-ifStatement: IF (LPAR expression RPAR | expression) (functionScope NL* ELSE)? statementScope;
+ifStatement: IF {print("Conditional : if");} (LPAR expression RPAR | expression) (functionScope NL* ELSE {print("Conditional : else");})? statementScope;
 
 statementScope: multiStatements | singleStatement;
 
@@ -76,19 +87,19 @@ singleStatement: NL+ statement;
 
 expression: orExpression (ASSIGN expression)?;
 
-orExpression: andExpression (OR andExpression)*;
+orExpression: andExpression (op = OR andExpression {print("Operator : " + $op.getText());})*;
 
-andExpression: equalityExpression (AND equalityExpression)*;
+andExpression: equalityExpression (op = AND equalityExpression {print("Operator : " + $op.getText());})*;
 
-equalityExpression: relationalExpression (EQUAL relationalExpression)*;
+equalityExpression: relationalExpression (op = EQUAL relationalExpression {print("Operator : " + $op.getText());})*;
 
-relationalExpression: additiveExpression ((GREATER_THAN | LESS_THAN) additiveExpression)*;
+relationalExpression: additiveExpression (op = (GREATER_THAN | LESS_THAN) additiveExpression {print("Operator : " + $op.getText());})*;
 
-additiveExpression: multiplicativeExpression ((PLUS | MINUS) multiplicativeExpression)*;
+additiveExpression: multiplicativeExpression (op = (PLUS | MINUS) multiplicativeExpression {print("Operator : " + $op.getText());})*;
 
-multiplicativeExpression: unaryExpression ((MULT | DIVIDE) unaryExpression)*;
+multiplicativeExpression: unaryExpression (op = (MULT | DIVIDE) unaryExpression {print("Operator : " + $op.getText());})*;
 
-unaryExpression: NOT accessExpression | MINUS accessExpression | accessExpression;
+unaryExpression: op = (NOT | MINUS) accessExpression {print("Operator : " + $op.getText());} | accessExpression;
 
 accessExpression: otherExpression (((DOT IDENTIFIER)? LPAR functionCallArguments RPAR) | (DOT IDENTIFIER) | (LBRACK expression RBRACK))*;
 

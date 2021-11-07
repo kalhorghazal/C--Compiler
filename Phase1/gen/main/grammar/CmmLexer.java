@@ -98,6 +98,16 @@ public class CmmLexer extends Lexer {
 	}
 
 
+	    void print(String str, Boolean... params){
+	        assert params.length <= 1;
+	        boolean inline = params.length > 0 ? params[0].booleanValue() : false;
+	        if (inline) {
+	            System.out.print(str);
+	        } else
+	            System.out.println(str);
+	    }
+
+
 	public CmmLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
