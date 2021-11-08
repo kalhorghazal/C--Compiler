@@ -21,7 +21,7 @@ struct: STRUCT id=IDENTIFIER {print("StructDec : " + $id.text);} structBody;
 
 function: (type | VOID) id=IDENTIFIER {print("FunctionDec : " + $id.text);} LPAR functionArguments RPAR functionScope;
 
-structBody: begin ((varDeclaration | method) interaSpace)* (varDeclaration | method) (SEMICOLLON)? end | NL+ (varDeclaration | method);
+structBody: begin ((varDeclaration | method) interaSpace)* (varDeclaration | method) (SEMICOLLON)? end | NL+ (varDeclaration | method) (SEMICOLLON)?;
 
 method: type id=IDENTIFIER {print("VarDec : " + $id.getText());} LPAR functionArguments RPAR methodBody;
 

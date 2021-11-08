@@ -1,0 +1,118 @@
+struct Student
+    int age;
+
+struct Teacher begin
+    int level = 3, age
+    int salary;
+    int id, numberOfStudent; bool isGood = 7;
+
+
+end
+
+struct Coach begin
+
+
+    int salary (int level) begin
+        set
+            salary = level * 3
+        get begin
+
+            a = salary
+            int age  = salary[9];
+        end
+    end; bool boolean, bold;
+
+
+
+end
+
+struct Coach begin
+    int age=9, bonus, happiness=8; bool isGood = 7
+    int middle(int n, int m) begin
+        set begin
+
+
+            age = n + m; int a = happiness.level
+        end
+
+	get
+            isGood = bonus / 2
+
+    end;
+
+    fptr<void-> list# bool> pointer;
+end
+
+bool function(int a, fptr<int -> void> f)begin
+
+    int a = 4;
+    f=d[d]
+
+    size(a); append(2, 5);
+    display(f[i].id);
+    list# list# bool isPresent, b; fptr <int, list# bool -> bool> f1, g
+    f()(); g(2); int g;
+    struct Coach ali, zahra; a = 7 * g
+end
+
+struct student function(int a, int b) begin
+    if ( a==2)
+	if ali.age > 8
+        	a = f
+    else begin
+
+
+        declare = a
+        f = g; int declare
+
+
+    end; function()
+
+    if(a>f)
+
+        s = h; int a
+
+end
+
+
+bool function(int a, int b) begin
+    while a==2
+
+
+        f()
+        struct coach me
+        me.age = 21; int a
+
+    do
+
+
+    f() while a==2; struct me f
+        v = g; int sample
+
+
+    do begin
+         if a==2 begin
+        a = 4
+        f = g.d
+    end else begin
+        d = f
+        end; ali = boy;
+         f()
+       end while a==2;
+
+    do begin
+    		f = h
+   	 f()
+    end
+
+    while a==2; struct me girl
+
+
+end
+
+main() begin
+    int inMain =3 + size(s) ;
+    display(me)
+    display(size(3))
+	a = 3* f + r
+end

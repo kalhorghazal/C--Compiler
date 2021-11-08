@@ -1,0 +1,45 @@
+struct Ticket begin
+    int id=0;int price;
+    struct Person person;
+    int calPrice(int _price)begin
+        set begin
+            price = _price / 1000;
+        end
+        get
+            return price;
+    end
+end
+
+struct Person begin
+    int number;
+end
+
+int buyTicket(int price,struct Person person,int date)begin
+    int check = price * 12 - 1000;
+    c = person.calPrice(check);
+    display(c);
+    display(person)
+    if (person.Checkout)
+        return c
+    else
+        return 4*c + check
+end
+
+void callPerson(int number)
+    called = true
+
+
+
+
+main()begin
+    struct Person p1; struct Person p2;
+    struct Ticket tik;
+    basePrice = 120000 * task;
+    bool isReady = tik.calPrice(p1,basePrice);
+    if(isReady)
+        callPerson(p1.number);
+    adv = (tik.calPrice() - basePrice) + task * 100
+    p2 = p1;
+    callPerson(p2.number);
+    display(p2.calPrice())
+end
