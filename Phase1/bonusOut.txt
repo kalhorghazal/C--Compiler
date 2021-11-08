@@ -1,0 +1,48 @@
+StructDec : Student
+VarDec : hasDegree
+VarDec : isFemale
+VarDec : age
+VarDec : calcGPA
+Setter
+FunctionCall
+Getter
+Return
+Operator : +
+VarDec : x
+FunctionDec : func
+ArgumentDec : i
+ArgumentDec : x
+Conditional : if
+Size
+Operator : ==
+Loop : while
+Operator : >
+Append
+Operator : -
+Conditional : else
+Loop : while
+Size
+Operator : <
+Built-in : display
+Operator : +
+Return
+Operator : *
+Operator : -
+Operator : /
+Operator : +
+Return
+Operator : -
+Main
+VarDec : myList
+VarDec : s
+Append
+Append
+Append
+Operator : *
+Loop : do...while
+Return
+Operator : +
+Built-in : display
+Operator : |
+Operator : &
+Operator : |

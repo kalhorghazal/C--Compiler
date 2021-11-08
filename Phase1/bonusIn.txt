@@ -1,0 +1,43 @@
+struct Student begin
+    bool hasDegree=false, isFemale; int age = 18; int calcGPA() begin
+        set begin
+            grade = 20; func(grade, age)
+        end
+        get
+            return age + isFemale
+    end; int x = fun(hasDegree)
+
+
+end
+
+
+void func(int i, list#int x) begin
+    if size(x) == 0 begin
+        while (i > 0) begin
+            append(x, i); i = i - 1;
+        end
+    end else begin
+            j = 0; while (j < size(x)) begin
+                display(x[j])
+                j = j + 1;
+            end; s = 1; return 8 - 5 * 4 + 2 / 3
+        end; return func(i-1, x)
+end
+
+
+main() begin
+    /*
+        Some Comments
+    */
+    list#bool myList; struct Student s;
+    s.age = 22;
+
+    append(myList, 1)
+    append(myList, true)
+    append(myList, s*2);
+
+    do
+        return func(myList + 1, 20)
+    while (true); display(myList | s | 19 & false)
+
+end
