@@ -67,7 +67,7 @@ values: boolValue | INT_VALUE;
 
 boolValue: TRUE | FALSE;
 
-functionCallStatement: {print("FunctionCall");} otherExpression ((DOT IDENTIFIER (LPAR functionCallArguments RPAR)+) | (DOT IDENTIFIER) | (LBRACK expression RBRACK))* ((DOT IDENTIFIER)? (LPAR functionCallArguments RPAR)+);
+functionCallStatement: {print("FunctionCall");} accessExpression ((DOT IDENTIFIER (LPAR functionCallArguments RPAR)+) | (DOT IDENTIFIER) | (LBRACK expression RBRACK))* ((DOT IDENTIFIER)? (LPAR functionCallArguments RPAR)+);
 
 functionCallArguments: expression (() | (COMMA expression)*) | ();
 
@@ -99,7 +99,7 @@ additiveExpression: multiplicativeExpression (op = (PLUS | MINUS) multiplicative
 
 multiplicativeExpression: unaryExpression (op = (MULT | DIVIDE) unaryExpression {print("Operator : " + $op.getText());})*;
 
-unaryExpression: op = (NOT | MINUS) accessExpression {print("Operator : " + $op.getText());} | accessExpression;
+unaryExpression: op = (NOT | MINUS) unaryExpression {print("Operator : " + $op.getText());} | accessExpression;
 
 accessExpression: otherExpression (((DOT IDENTIFIER)? LPAR functionCallArguments RPAR) | (DOT IDENTIFIER) | (LBRACK expression RBRACK))*;
 

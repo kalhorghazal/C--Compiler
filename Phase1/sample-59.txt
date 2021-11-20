@@ -1,0 +1,80 @@
+StructDec : sample
+VarDec : var
+ArgumentDec : k
+ArgumentDec : g
+Setter
+Conditional : if
+Operator : *
+Return
+Append
+Conditional : else
+Conditional : if
+Operator : -
+Operator : ~
+Operator : +
+Size
+Operator : &
+Getter
+Loop : while
+Operator : /
+Conditional : if
+Operator : ~
+Operator : *
+Built-in : display
+Operator : *
+Conditional : else
+Built-in : display
+Append
+Operator : *
+Operator : /
+Built-in : display
+Operator : +
+FunctionDec : f
+Loop : do...while
+Operator : +
+Operator : *
+Operator : +
+VarDec : jj
+VarDec : tt
+VarDec : f
+VarDec : d
+VarDec : k
+Operator : >
+Operator : ~
+Operator : *
+Operator : *
+Operator : ==
+Operator : *
+Operator : |
+FunctionDec : f2
+Loop : do...while
+Conditional : if
+Return
+Return
+Return
+Operator : *
+Conditional : if
+Return
+Built-in : display
+Conditional : if
+Conditional : if
+Size
+Conditional : else
+Append
+Conditional : if
+Conditional : if
+Return
+Conditional : else
+Return
+Operator : *
+Operator : *
+VarDec : bb
+Main
+Loop : while
+Return
+Loop : while
+Return
+Conditional : if
+Built-in : display
+Operator : *
+Return

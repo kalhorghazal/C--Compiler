@@ -2238,8 +2238,8 @@ public class CmmParser extends Parser {
 	}
 
 	public static class FunctionCallStatementContext extends ParserRuleContext {
-		public OtherExpressionContext otherExpression() {
-			return getRuleContext(OtherExpressionContext.class,0);
+		public AccessExpressionContext accessExpression() {
+			return getRuleContext(AccessExpressionContext.class,0);
 		}
 		public List<TerminalNode> DOT() { return getTokens(CmmParser.DOT); }
 		public TerminalNode DOT(int i) {
@@ -2306,7 +2306,7 @@ public class CmmParser extends Parser {
 			{
 			print("FunctionCall");
 			setState(354);
-			otherExpression();
+			accessExpression();
 			setState(373);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,34,_ctx);
@@ -3622,11 +3622,14 @@ public class CmmParser extends Parser {
 
 	public static class UnaryExpressionContext extends ParserRuleContext {
 		public Token op;
-		public AccessExpressionContext accessExpression() {
-			return getRuleContext(AccessExpressionContext.class,0);
+		public UnaryExpressionContext unaryExpression() {
+			return getRuleContext(UnaryExpressionContext.class,0);
 		}
 		public TerminalNode NOT() { return getToken(CmmParser.NOT, 0); }
 		public TerminalNode MINUS() { return getToken(CmmParser.MINUS, 0); }
+		public AccessExpressionContext accessExpression() {
+			return getRuleContext(AccessExpressionContext.class,0);
+		}
 		public UnaryExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -3670,7 +3673,7 @@ public class CmmParser extends Parser {
 					consume();
 				}
 				setState(552);
-				accessExpression();
+				unaryExpression();
 				print("Operator : " + ((UnaryExpressionContext)_localctx).op.getText());
 				}
 				break;
@@ -3767,69 +3770,72 @@ public class CmmParser extends Parser {
 		enterRule(_localctx, 90, RULE_accessExpression);
 		int _la;
 		try {
+			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(558);
 			otherExpression();
 			setState(575);
 			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LPAR) | (1L << LBRACK) | (1L << DOT))) != 0)) {
-				{
-				setState(573);
-				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,61,_ctx) ) {
-				case 1:
+			_alt = getInterpreter().adaptivePredict(_input,62,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
 					{
-					{
-					setState(561);
+					setState(573);
 					_errHandler.sync(this);
-					_la = _input.LA(1);
-					if (_la==DOT) {
+					switch ( getInterpreter().adaptivePredict(_input,61,_ctx) ) {
+					case 1:
 						{
-						setState(559);
+						{
+						setState(561);
+						_errHandler.sync(this);
+						_la = _input.LA(1);
+						if (_la==DOT) {
+							{
+							setState(559);
+							match(DOT);
+							setState(560);
+							match(IDENTIFIER);
+							}
+						}
+
+						setState(563);
+						match(LPAR);
+						setState(564);
+						functionCallArguments();
+						setState(565);
+						match(RPAR);
+						}
+						}
+						break;
+					case 2:
+						{
+						{
+						setState(567);
 						match(DOT);
-						setState(560);
+						setState(568);
 						match(IDENTIFIER);
 						}
+						}
+						break;
+					case 3:
+						{
+						{
+						setState(569);
+						match(LBRACK);
+						setState(570);
+						expression();
+						setState(571);
+						match(RBRACK);
+						}
+						}
+						break;
 					}
-
-					setState(563);
-					match(LPAR);
-					setState(564);
-					functionCallArguments();
-					setState(565);
-					match(RPAR);
-					}
-					}
-					break;
-				case 2:
-					{
-					{
-					setState(567);
-					match(DOT);
-					setState(568);
-					match(IDENTIFIER);
-					}
-					}
-					break;
-				case 3:
-					{
-					{
-					setState(569);
-					match(LBRACK);
-					setState(570);
-					expression();
-					setState(571);
-					match(RBRACK);
-					}
-					}
-					break;
-				}
+					} 
 				}
 				setState(577);
 				_errHandler.sync(this);
-				_la = _input.LA(1);
+				_alt = getInterpreter().adaptivePredict(_input,62,_ctx);
 			}
 			}
 		}
@@ -4299,7 +4305,7 @@ public class CmmParser extends Parser {
 		"\u0156\3\2\2\2\u0159\u0151\3\2\2\2\u0159\u0156\3\2\2\2\u015a\63\3\2\2"+
 		"\2\u015b\u015c\t\2\2\2\u015c\65\3\2\2\2\u015d\u0160\58\35\2\u015e\u0160"+
 		"\7,\2\2\u015f\u015d\3\2\2\2\u015f\u015e\3\2\2\2\u0160\67\3\2\2\2\u0161"+
-		"\u0162\t\3\2\2\u01629\3\2\2\2\u0163\u0164\b\36\1\2\u0164\u0177\5^\60\2"+
+		"\u0162\t\3\2\2\u01629\3\2\2\2\u0163\u0164\b\36\1\2\u0164\u0177\5\\/\2"+
 		"\u0165\u0166\7(\2\2\u0166\u016b\7-\2\2\u0167\u0168\7$\2\2\u0168\u0169"+
 		"\5<\37\2\u0169\u016a\7%\2\2\u016a\u016c\3\2\2\2\u016b\u0167\3\2\2\2\u016c"+
 		"\u016d\3\2\2\2\u016d\u016b\3\2\2\2\u016d\u016e\3\2\2\2\u016e\u0176\3\2"+
@@ -4361,7 +4367,7 @@ public class CmmParser extends Parser {
 		"\t\6\2\2\u0221\u0222\5Z.\2\u0222\u0223\b-\1\2\u0223\u0225\3\2\2\2\u0224"+
 		"\u0220\3\2\2\2\u0225\u0228\3\2\2\2\u0226\u0224\3\2\2\2\u0226\u0227\3\2"+
 		"\2\2\u0227Y\3\2\2\2\u0228\u0226\3\2\2\2\u0229\u022a\t\7\2\2\u022a\u022b"+
-		"\5\\/\2\u022b\u022c\b.\1\2\u022c\u022f\3\2\2\2\u022d\u022f\5\\/\2\u022e"+
+		"\5Z.\2\u022b\u022c\b.\1\2\u022c\u022f\3\2\2\2\u022d\u022f\5\\/\2\u022e"+
 		"\u0229\3\2\2\2\u022e\u022d\3\2\2\2\u022f[\3\2\2\2\u0230\u0241\5^\60\2"+
 		"\u0231\u0232\7(\2\2\u0232\u0234\7-\2\2\u0233\u0231\3\2\2\2\u0233\u0234"+
 		"\3\2\2\2\u0234\u0235\3\2\2\2\u0235\u0236\7$\2\2\u0236\u0237\5<\37\2\u0237"+

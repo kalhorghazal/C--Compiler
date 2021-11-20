@@ -1,0 +1,5 @@
+main() begin
+    f()()(a, c, d)(b, a).c()
+    f().c()()()
+    f().c.d.e().t()
+end
