@@ -1,0 +1,37 @@
+struct st begin
+    int a, b;
+    bool a (int arg1, int arg1) begin
+        set begin
+            int b;
+            a = b;
+        end
+        get
+            return a
+    end
+end
+
+struct st begin
+    int a;
+    list #int a
+end
+
+void st(int a, bool a, int b) begin
+    int b, c;
+    if true begin
+        int c = 10
+        int t = 4
+    end
+    else
+        int t = 3
+end
+
+main() begin
+    bool st
+    int i = 0
+    while i < sz begin
+        int newVar
+        while j < i
+            int newVar = 4
+    end
+    int newVar = 10
+end

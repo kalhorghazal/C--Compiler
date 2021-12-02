@@ -1,0 +1,11 @@
+Line 3: Variable a is already declared
+Line 3: Variable arg1 is already declared
+Line 13: Duplicate struct st
+Line 15: Variable a is already declared
+Line 18: Name of function st conflicts with a struct's name
+Line 18: Variable a is already declared
+Line 19: Variable b is already declared
+Line 21: Variable c is already declared
+Line 29: Name of Variable st conflicts with a struct's name
+Line 29: Name of Variable st conflicts with a function's name
+Line 34: Variable newVar is already declared

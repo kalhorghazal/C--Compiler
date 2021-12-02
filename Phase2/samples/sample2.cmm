@@ -1,0 +1,33 @@
+struct s1 begin
+    int a, b = 2;
+    int c (bool arg1, bool arg2) begin
+        set
+            if arg1 & a > b
+                a = a - b
+             else
+                a = a + b
+        get
+            return a * b + a
+    end; int d () begin
+    set
+    return 2
+    get
+    return 4
+    end
+end
+
+void f1(list #int myList) begin
+    int i = 0
+    do begin
+        display(myList[i])
+        i = i + 1
+    end while(i < size(myList))
+end
+
+main() begin
+    list #int temp
+    int a = 9
+    append(temp, 1)
+    append(temp, 2 / a)
+    f1(temp)
+end
