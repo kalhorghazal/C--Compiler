@@ -1,4 +1,4 @@
-// Generated from D:/University/TA_Lessons/Compiler-1400-Fall/Phase2/src/main/grammar\Cmm.g4 by ANTLR 4.9.1
+// Generated from /home/ghazal/IdeaProjects/Phase2/src/main/grammar/Cmm.g4 by ANTLR 4.9.1
 package parsers;
 
      import main.ast.nodes.*;
@@ -270,6 +270,18 @@ public interface CmmVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIdentifier(CmmParser.IdentifierContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CmmParser#structType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStructType(CmmParser.StructTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CmmParser#listType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitListType(CmmParser.ListTypeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CmmParser#type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -281,4 +293,10 @@ public interface CmmVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFptrType(CmmParser.FptrTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CmmParser#typesWithComma}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTypesWithComma(CmmParser.TypesWithCommaContext ctx);
 }

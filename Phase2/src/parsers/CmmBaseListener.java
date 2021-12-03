@@ -1,4 +1,4 @@
-// Generated from D:/University/TA_Lessons/Compiler-1400-Fall/Phase2/src/main/grammar\Cmm.g4 by ANTLR 4.9.1
+// Generated from /home/ghazal/IdeaProjects/Phase2/src/main/grammar/Cmm.g4 by ANTLR 4.9.1
 package parsers;
 
      import main.ast.nodes.*;
@@ -521,6 +521,30 @@ public class CmmBaseListener implements CmmListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterStructType(CmmParser.StructTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStructType(CmmParser.StructTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterListType(CmmParser.ListTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitListType(CmmParser.ListTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterType(CmmParser.TypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -540,6 +564,18 @@ public class CmmBaseListener implements CmmListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFptrType(CmmParser.FptrTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTypesWithComma(CmmParser.TypesWithCommaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTypesWithComma(CmmParser.TypesWithCommaContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

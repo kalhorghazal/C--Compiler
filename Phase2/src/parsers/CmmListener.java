@@ -1,4 +1,4 @@
-// Generated from D:/University/TA_Lessons/Compiler-1400-Fall/Phase2/src/main/grammar\Cmm.g4 by ANTLR 4.9.1
+// Generated from /home/ghazal/IdeaProjects/Phase2/src/main/grammar/Cmm.g4 by ANTLR 4.9.1
 package parsers;
 
      import main.ast.nodes.*;
@@ -431,6 +431,26 @@ public interface CmmListener extends ParseTreeListener {
 	 */
 	void exitIdentifier(CmmParser.IdentifierContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CmmParser#structType}.
+	 * @param ctx the parse tree
+	 */
+	void enterStructType(CmmParser.StructTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CmmParser#structType}.
+	 * @param ctx the parse tree
+	 */
+	void exitStructType(CmmParser.StructTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CmmParser#listType}.
+	 * @param ctx the parse tree
+	 */
+	void enterListType(CmmParser.ListTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CmmParser#listType}.
+	 * @param ctx the parse tree
+	 */
+	void exitListType(CmmParser.ListTypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CmmParser#type}.
 	 * @param ctx the parse tree
 	 */
@@ -450,4 +470,14 @@ public interface CmmListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFptrType(CmmParser.FptrTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CmmParser#typesWithComma}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypesWithComma(CmmParser.TypesWithCommaContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CmmParser#typesWithComma}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypesWithComma(CmmParser.TypesWithCommaContext ctx);
 }
