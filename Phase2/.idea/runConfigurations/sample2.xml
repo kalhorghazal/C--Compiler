@@ -2,7 +2,7 @@
   <configuration default="false" name="sample2" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="main.Cmm" />
     <module name="Phase2" />
-    <option name="PROGRAM_PARAMETERS" value="samples\sample2.cmm" />
+    <option name="PROGRAM_PARAMETERS" value="samples/sample2.cmm" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

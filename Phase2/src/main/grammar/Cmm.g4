@@ -31,13 +31,7 @@ main returns[MainDeclaration mainRet]:
 
 //todo
 structDeclaration returns[StructDeclaration structDeclarationRet]:
-    s=STRUCT name=identifier
-    {
-        $structDeclarationRet = new StructDeclaration();
-        $structDeclarationRet.setLine($s.getLine());
-        $structDeclarationRet.setStructName($name.idRet);
-    }
-    ((BEGIN structBody NEWLINE+ END) | (NEWLINE+ singleStatementStructBody SEMICOLON?)) NEWLINE+;
+    STRUCT identifier ((BEGIN structBody NEWLINE+ END) | (NEWLINE+ singleStatementStructBody SEMICOLON?)) NEWLINE+;
 
 //todo
 singleVarWithGetAndSet :
@@ -68,7 +62,7 @@ functionArgsDec :
     LPAR (type identifier (COMMA type identifier)*)? RPAR ;
 
 //todo
-functionArguments :
+functionArguments returns[ArrayList<Expression> functionArgsRet]:
     (expression (COMMA expression)*)?;
 
 //todo
@@ -83,24 +77,37 @@ loopCondBody :
 blockStatement :
     BEGIN (NEWLINE+ (singleStatement SEMICOLON)* singleStatement (SEMICOLON)?)+ NEWLINE+ END;
 
-//todo
-varDecStatement :
-    type identifier (ASSIGN orExpression )? (COMMA identifier (ASSIGN orExpression)? )*;
+//todo: done:)
+varDecStatement returns[VarDecStmt varDecStmtRet]
+    locals[VariableDeclaration tempVar]:
+    t=type i1=identifier
+    {
+        $tempVar = new VariableDeclaration($i1.idRet, $t.typeRet);
+        $tempVar.setLine($i1.line);
+    }
+    (ASSIGN oe1=orExpression
+    { $tempVar.setDefaultValue($oe1.orExprRet); }
+    )?
+    {
+        $varDecStmtRet = new VarDecStmt();
+        $varDecStmtRet.addVar($tempVar);
+        $varDecStmtRet.setLine($tempVar.getLine());
+    }
+    (COMMA i2=identifier
+    {
+        $tempVar = new VariableDeclaration($i2.idRet, $t.typeRet);
+        $tempVar.setLine($i2.line);
+    }
+    (ASSIGN oe2=orExpression
+    { $tempVar.setDefaultValue($oe2.orExprRet); }
+    )?
+    { $varDecStmtRet.addVar($tempVar); }
+    )*
+    ;
 
 //todo
-functionCallStmt returns[FunctionCallStmt functionCallStmtRet]
-    locals[Expression tempExpr]:
-    oe=otherExpression
-    { $tempExpr = $oe.otherExprRet; }
-    (
-    (l=LPAR functionArguments
-    {
-    }
-    RPAR)
-    | (DOT identifier)
-    )*
-    (LPAR functionArguments RPAR)
-    ;
+functionCallStmt :
+     otherExpression ((LPAR functionArguments RPAR) | (DOT identifier))* (LPAR functionArguments RPAR);
 
 //todo: done:)
 returnStatement returns[ReturnStmt returnStmtRet]:
@@ -127,8 +134,8 @@ loopStatement :
     whileLoopStatement | doWhileLoopStatement;
 
 //todo
-whileLoopStatement returns[LoopStmt whileStmtRet]:
-    w=WHILE expression loopCondBody;
+whileLoopStatement :
+    WHILE expression loopCondBody;
 
 //todo
 doWhileLoopStatement :
@@ -139,7 +146,7 @@ displayStatement returns[DisplayStmt displayStmtRet]:
     d=DISPLAY LPAR
     e=expression
     {
-        $displayStmtRet = new PrintStmt($e.exprRet);
+        $displayStmtRet = new DisplayStmt($e.exprRet);
         $displayStmtRet.setLine($d.getLine());
     }
     RPAR
@@ -307,17 +314,45 @@ preUnaryExpression returns[Expression preUnaryExprRet]
     { $preUnaryExprRet = $ae.accessExprRet; }
     ;
 
-//todo
+//todo: done:)
 accessExpression returns[Expression accessExprRet]:
-    otherExpression ((LPAR functionArguments RPAR) | (DOT identifier))*  ((LBRACK expression RBRACK) | (DOT identifier))*;
+    oe=otherExpression
+    { $accessExprRet = $oe.otherExprRet; }
+    ((l1=LPAR f=functionArguments RPAR)
+    {
+        $accessExprRet = new FunctionCall($accessExprRet, $f.functionArgsRet);
+        $accessExprRet.setLine($l1.getLine());
+    }
+    | (DOT i1=identifier)
+    {
+        $accessExprRet = new StructAccess($accessExprRet, $i1.idRet);
+        $accessExprRet.setLine($i1.line);
+    }
+    )*
+    ((l2=LBRACK index=expression RBRACK)
+    {
+        $accessExprRet = new ListAccessByIndex($accessExprRet, $index.exprRet);
+        $accessExprRet.setLine($l2.getLine());
+    }
+    | (DOT i2=identifier)
+    {
+        $accessExprRet = new StructAccess($accessExprRet, $i2.idRet);
+        $accessExprRet.setLine($i2.line);
+    }
+    )*
+    ;
 
-//todo
+//todo: done:)
 otherExpression returns[Expression otherExprRet]:
     v=value
     { $otherExprRet = $v.valueRet; }
     | id=identifier
     { $otherExprRet = $id.idRet; }
-    | LPAR (functionArguments) RPAR
+    | l=LPAR (f=functionArguments) RPAR
+    {
+        $otherExprRet = new ExprInPar($f.functionArgsRet);
+        $otherExprRet.setLine($l.getLine());
+    }
     | s=size
     {
         $otherExprRet = $s.listSizeRet;
@@ -344,10 +379,11 @@ append returns[ListAppend listAppendRet]:
     a=APPEND LPAR
     e1=expression COMMA e2=expression
     {
-        $listAppendRet = new ListAppend($e1.exprRet, e2.exprRet);
+        $listAppendRet = new ListAppend($e1.exprRet, $e2.exprRet);
         $listAppendRet.setLine($a.getLine());
     }
-    RPAR;
+    RPAR
+    ;
 
 //todo: done:)
 value returns[Value valueRet]:
@@ -394,7 +430,7 @@ structType returns[StructType structTypeRet]:
 
 listType returns[ListType listTypeRet]:
     LIST SHARP t=type
-    { $listTypeRet = new ListType(t.typeRet); }
+    { $listTypeRet = new ListType($t.typeRet); }
     ;
 
 //todo: done:)
@@ -412,20 +448,20 @@ type returns[Type typeRet]:
     ;
 
 //todo: done:)
-fptrType returns[FptrType fptrTypeRet]:
-    FPTR
-    { $fptrTypeRet = new FptrType(); }
-    LESS_THAN
+fptrType returns[FptrType fptrTypeRet]
+    locals[ArrayList<Type> argsTypes, Type returnType]:
+    FPTR LESS_THAN
     (VOID
-    { $fptrTypeRet.setArgumentsTypes(new ArrayList<Type>()); }
+    { $argsTypes = new ArrayList<Type>(); }
     | types=typesWithComma
-    { $fptrTypeRet.setArgumentsTypes($types.typesWithCommaRet); }
+    { $argsTypes = $types.typesWithCommaRet; }
     ) ARROW
     (VOID
-    { $fptrTypeRet.setReturnType(new NullType()); }
+    { $returnType = new VoidType(); }
     | t=type
-    { $fptrTypeRet.setReturnType($t.typeRet); }
+    { $returnType = $t.typeRet; }
     ) GREATER_THAN
+    { $fptrTypeRet = new FptrType($argsTypes, $returnType); }
     ;
 
 typesWithComma returns[ArrayList<Type> typesWithCommaRet]:
