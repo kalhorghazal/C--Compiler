@@ -3409,6 +3409,7 @@ public class CmmParser extends Parser {
 				((OtherExpressionContext)_localctx).s = size();
 
 				        ((OtherExpressionContext)_localctx).otherExprRet =  ((OtherExpressionContext)_localctx).s.listSizeRet;
+				        _localctx.otherExprRet.setLine(((OtherExpressionContext)_localctx).s.line);
 				    
 				}
 				break;
@@ -3419,6 +3420,7 @@ public class CmmParser extends Parser {
 				((OtherExpressionContext)_localctx).a = append();
 
 				        ((OtherExpressionContext)_localctx).otherExprRet =  ((OtherExpressionContext)_localctx).a.listAppendRet;
+				        _localctx.otherExprRet.setLine(((OtherExpressionContext)_localctx).a.line);
 				    
 				}
 				break;
@@ -3439,6 +3441,7 @@ public class CmmParser extends Parser {
 
 	public static class SizeContext extends ParserRuleContext {
 		public ListSize listSizeRet;
+		public int line;
 		public Token s;
 		public ExpressionContext e;
 		public TerminalNode LPAR() { return getToken(CmmParser.LPAR, 0); }
@@ -3481,6 +3484,7 @@ public class CmmParser extends Parser {
 
 			        ((SizeContext)_localctx).listSizeRet =  new ListSize(((SizeContext)_localctx).e.exprRet);
 			        _localctx.listSizeRet.setLine(((SizeContext)_localctx).s.getLine());
+			        ((SizeContext)_localctx).line =  _localctx.listSizeRet.getLine();
 			    
 			setState(568);
 			match(RPAR);
@@ -3499,6 +3503,7 @@ public class CmmParser extends Parser {
 
 	public static class AppendContext extends ParserRuleContext {
 		public ListAppend listAppendRet;
+		public int line;
 		public Token a;
 		public ExpressionContext e1;
 		public ExpressionContext e2;
@@ -3550,6 +3555,7 @@ public class CmmParser extends Parser {
 
 			        ((AppendContext)_localctx).listAppendRet =  new ListAppend(((AppendContext)_localctx).e1.exprRet, ((AppendContext)_localctx).e2.exprRet);
 			        _localctx.listAppendRet.setLine(((AppendContext)_localctx).a.getLine());
+			        ((AppendContext)_localctx).line =  _localctx.listAppendRet.getLine();
 			    
 			setState(576);
 			match(RPAR);

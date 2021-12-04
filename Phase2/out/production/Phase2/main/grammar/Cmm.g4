@@ -356,31 +356,35 @@ otherExpression returns[Expression otherExprRet]:
     | s=size
     {
         $otherExprRet = $s.listSizeRet;
+        $otherExprRet.setLine($s.line);
     }
     | a=append
     {
         $otherExprRet = $a.listAppendRet;
+        $otherExprRet.setLine($a.line);
     }
     ;
 
 //todo: done:)
-size returns[ListSize listSizeRet]:
+size returns[ListSize listSizeRet, int line]:
     s=SIZE LPAR
     e=expression
     {
         $listSizeRet = new ListSize($e.exprRet);
         $listSizeRet.setLine($s.getLine());
+        $line = $listSizeRet.getLine();
     }
     RPAR
     ;
 
 //todo: done:)
-append returns[ListAppend listAppendRet]:
+append returns[ListAppend listAppendRet, int line]:
     a=APPEND LPAR
     e1=expression COMMA e2=expression
     {
         $listAppendRet = new ListAppend($e1.exprRet, $e2.exprRet);
         $listAppendRet.setLine($a.getLine());
+        $line = $listAppendRet.getLine();
     }
     RPAR
     ;
