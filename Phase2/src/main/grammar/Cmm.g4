@@ -18,16 +18,27 @@ cmm returns[Program cmmProgram]:
     NEWLINE* p = program {$cmmProgram = $p.programRet;} NEWLINE* EOF;
 
 program returns[Program programRet]:
-    {$programRet = new Program();
-     int line = 1;
-     $programRet.setLine(line);}
+    {
+        $programRet = new Program();
+        int line = 1;
+        $programRet.setLine(line);
+    }
     (s = structDeclaration {$programRet.addStruct($s.structDeclarationRet);})*
     (f = functionDeclaration {$programRet.addFunction($f.functionDeclarationRet);})*
-    m = main {$programRet.setMain($m.mainRet);};
+    m = main
+    { $programRet.setMain($m.mainRet); }
+    ;
 
-//todo
+//todo: done:)
 main returns[MainDeclaration mainRet]:
-    MAIN LPAR RPAR body;
+    m=MAIN
+    {
+        $mainRet = new MainDeclaration();
+        $mainRet.setLine($m.getLine());
+    }
+    LPAR RPAR body
+    { $mainRet.setBody($body.bodyRet); }
+    ;
 
 //todo
 structDeclaration returns[StructDeclaration structDeclarationRet]:
@@ -45,37 +56,88 @@ singleStatementStructBody :
 structBody :
     (NEWLINE+ (singleStatementStructBody SEMICOLON)* singleStatementStructBody SEMICOLON?)+;
 
-//todo
-getBody :
-    GET body NEWLINE+;
+//todo: done:)
+getBody returns[Statement getBodyRet]:
+    GET b=body
+    { $getBodyRet = $b.bodyRet; }
+    NEWLINE+
+    ;
 
-//todo
-setBody :
-    SET body NEWLINE+;
+//todo: done:)
+setBody returns[Statement setBodyRet]:
+    SET b=body
+    { $setBodyRet = $b.bodyRet; }
+    NEWLINE+
+    ;
 
 //todo
 functionDeclaration returns[FunctionDeclaration functionDeclarationRet]:
     (type | VOID ) identifier functionArgsDec body NEWLINE+;
 
-//todo
-functionArgsDec :
-    LPAR (type identifier (COMMA type identifier)*)? RPAR ;
+//todo: done:)
+functionArgsDec returns[ArrayList<VariableDeclaration> argsRet]:
+    LPAR
+    { $argsRet = new ArrayList<>(); }
+    (v1=variableWithType
+    { $argsRet.add($v1.varWithTypeRet); }
+    (COMMA v2=variableWithType
+    { $argsRet.add($v2.varWithTypeRet); }
+    )*
+    )?
+    RPAR
+    ;
 
-//todo
+variableWithType returns[VariableDeclaration varWithTypeRet]:
+    t=type id=identifier
+    {
+        $varWithTypeRet = new VariableDeclaration($id.idRet, $t.typeRet);
+        $varWithTypeRet.setLine($id.line);
+    }
+    ;
+
+//todo: done:)
 functionArguments returns[ArrayList<Expression> functionArgsRet]:
-    (expression (COMMA expression)*)?;
+    { $functionArgsRet = new ArrayList<>(); }
+    (e1=expression
+    { $functionArgsRet.add($e1.exprRet); }
+    (COMMA e2=expression
+    { $functionArgsRet.add($e2.exprRet); }
+    )*
+    )?
+    ;
 
-//todo
-body :
-     (blockStatement | (NEWLINE+ singleStatement (SEMICOLON)?));
+//todo: done:)
+body returns[Statement bodyRet]:
+    (b=blockStatement
+    { $bodyRet = $b.blockStmtRet; }
+    | (NEWLINE+ s=singleStatement
+    { $bodyRet = $s.stmtRet; }
+    (SEMICOLON)?
+    ))
+    ;
 
-//todo
-loopCondBody :
-     (blockStatement | (NEWLINE+ singleStatement ));
+//todo: done:)
+loopCondBody returns[Statement loopCondBodyRet]:
+     (b=blockStatement
+     { $loopCondBodyRet = $b.blockStmtRet; }
+     | (NEWLINE+ s=singleStatement
+     { $loopCondBodyRet = $s.stmtRet; }
+     ))
+     ;
 
-//todo
-blockStatement :
-    BEGIN (NEWLINE+ (singleStatement SEMICOLON)* singleStatement (SEMICOLON)?)+ NEWLINE+ END;
+//todo: done:)
+blockStatement returns[BlockStmt blockStmtRet]:
+    b=BEGIN
+    {
+        $blockStmtRet = new BlockStmt();
+        $blockStmtRet.setLine($b.getLine());
+    }
+    (NEWLINE+ (s1=singleStatement
+    { $blockStmtRet.addStatement($s1.stmtRet); }
+    SEMICOLON)* s2=singleStatement
+    { $blockStmtRet.addStatement($s2.stmtRet); }
+    (SEMICOLON)?)+ NEWLINE+ END
+    ;
 
 //todo: done:)
 varDecStatement returns[VarDecStmt varDecStmtRet]
@@ -105,9 +167,34 @@ varDecStatement returns[VarDecStmt varDecStmtRet]
     )*
     ;
 
-//todo
-functionCallStmt :
-     otherExpression ((LPAR functionArguments RPAR) | (DOT identifier))* (LPAR functionArguments RPAR);
+//todo: done:)
+functionCallStmt returns[FunctionCallStmt functionCallStmtRet]
+    locals[Expression tempExpr]:
+    oe=otherExpression
+    { $tempExpr = $oe.otherExprRet; }
+    (
+    (l1=LPAR f1=functionArguments
+    {
+        $tempExpr = new FunctionCall($tempExpr, $f1.functionArgsRet);
+        $tempExpr.setLine($l1.getLine());
+    }
+    RPAR)
+    | (DOT i=identifier)
+    {
+        $tempExpr = new StructAccess($tempExpr, $i.idRet);
+        $tempExpr.setLine($i.line);
+    }
+    )*
+    (l2=LPAR f2=functionArguments
+    {
+        FunctionCall functionCall = new FunctionCall($tempExpr, $f2.functionArgsRet);
+        functionCall.setLine($l2.getLine());
+        $functionCallStmtRet = new FunctionCallStmt(functionCall);
+        $functionCallStmtRet.setLine($l2.getLine());
+    }
+    RPAR)
+    ;
+
 
 //todo: done:)
 returnStatement returns[ReturnStmt returnStmtRet]:
@@ -122,7 +209,7 @@ returnStatement returns[ReturnStmt returnStmtRet]:
     ;
 
 //todo
-ifStatement :
+ifStatement returns[ConditionalStmt ifStmtRet]:
     IF expression (loopCondBody | body elseStatement);
 
 //todo
@@ -130,7 +217,7 @@ elseStatement :
      NEWLINE* ELSE loopCondBody;
 
 //todo
-loopStatement :
+loopStatement returns[LoopStmt loopStmtRet]:
     whileLoopStatement | doWhileLoopStatement;
 
 //todo
@@ -161,10 +248,27 @@ assignmentStatement returns[AssignmentStmt assignmentRet]:
     }
     ;
 
-//todo
-singleStatement :
-    ifStatement | displayStatement | functionCallStmt | returnStatement | assignmentStatement
-    | varDecStatement | loopStatement | append | size;
+//todo: done:)
+singleStatement returns[Statement stmtRet]:
+    i=ifStatement
+    { $stmtRet = $i.ifStmtRet; }
+    | d=displayStatement
+    { $stmtRet = $d.displayStmtRet; }
+    | f=functionCallStmt
+    { $stmtRet = $f.functionCallStmtRet; }
+    | r=returnStatement
+    { $stmtRet = $r.returnStmtRet; }
+    | a1=assignmentStatement
+    { $stmtRet = $a1.assignmentRet; }
+    | v=varDecStatement
+    { $stmtRet = $v.varDecStmtRet; }
+    | l=loopStatement
+    { $stmtRet = $l.loopStmtRet; }
+    | a2=append
+    { $stmtRet = new ListAppendStmt($a2.listAppendRet); }
+    | s=size
+    { $stmtRet = new ListSizeStmt($s.listSizeRet); }
+    ;
 
 //todo: done:)
 expression returns[Expression exprRet]:

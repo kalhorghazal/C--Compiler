@@ -131,6 +131,16 @@ public interface CmmListener extends ParseTreeListener {
 	 */
 	void exitFunctionArgsDec(CmmParser.FunctionArgsDecContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CmmParser#variableWithType}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariableWithType(CmmParser.VariableWithTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CmmParser#variableWithType}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariableWithType(CmmParser.VariableWithTypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CmmParser#functionArguments}.
 	 * @param ctx the parse tree
 	 */

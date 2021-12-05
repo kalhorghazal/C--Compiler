@@ -161,6 +161,18 @@ public class CmmBaseListener implements CmmListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterVariableWithType(CmmParser.VariableWithTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVariableWithType(CmmParser.VariableWithTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterFunctionArguments(CmmParser.FunctionArgumentsContext ctx) { }
 	/**
 	 * {@inheritDoc}
