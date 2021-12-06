@@ -40,21 +40,59 @@ main returns[MainDeclaration mainRet]:
     { $mainRet.setBody($body.bodyRet); }
     ;
 
-//todo
+//todo: done:)
 structDeclaration returns[StructDeclaration structDeclarationRet]:
-    STRUCT identifier ((BEGIN structBody NEWLINE+ END) | (NEWLINE+ singleStatementStructBody SEMICOLON?)) NEWLINE+;
+    s=STRUCT i=identifier
+    {
+        $structDeclarationRet = new StructDeclaration();
+        $structDeclarationRet.setStructName($i.idRet);
+        $structDeclarationRet.setLine($s.getLine());
+    }
+    ((b=BEGIN s1=structBody
+    {
+        $s1.structBodyRet.setLine($b.getLine());
+        $structDeclarationRet.setBody($s1.structBodyRet);
+    }
+    NEWLINE+ END) | (NEWLINE+ s2=singleStatementStructBody
+    { $structDeclarationRet.setBody($s2.singleStmtStructBodyRet); }
+    SEMICOLON?)) NEWLINE+
+    ;
 
-//todo
-singleVarWithGetAndSet :
-    type identifier functionArgsDec BEGIN NEWLINE+ setBody getBody END;
+//todo: done:)
+singleVarWithGetAndSet returns[SetGetVarDeclaration setGetVarDecRet]:
+    t=type i=identifier
+    {
+        $setGetVarDecRet = new SetGetVarDeclaration();
+        $setGetVarDecRet.setVarType($t.typeRet);
+        $setGetVarDecRet.setVarName($i.idRet);
+        $setGetVarDecRet.setLine($i.line);
+    }
+    f=functionArgsDec
+    { $setGetVarDecRet.setArgs($f.argsRet); }
+    b=BEGIN NEWLINE+ s=setBody
+    { $setGetVarDecRet.setSetterBody($s.setBodyRet); }
+    g=getBody
+    { $setGetVarDecRet.setGetterBody($g.getBodyRet); }
+    END
+    ;
 
-//todo
-singleStatementStructBody :
-    varDecStatement | singleVarWithGetAndSet;
+//todo: done:)
+singleStatementStructBody returns[Statement singleStmtStructBodyRet]:
+    v=varDecStatement
+    { $singleStmtStructBodyRet = $v.varDecStmtRet; }
+    | s=singleVarWithGetAndSet
+    { $singleStmtStructBodyRet = $s.setGetVarDecRet; }
+    ;
 
-//todo
-structBody :
-    (NEWLINE+ (singleStatementStructBody SEMICOLON)* singleStatementStructBody SEMICOLON?)+;
+//todo: done:)
+structBody returns[BlockStmt structBodyRet]:
+    { $structBodyRet = new BlockStmt(); }
+    (NEWLINE+ (s1=singleStatementStructBody
+    { $structBodyRet.addStatement($s1.singleStmtStructBodyRet); }
+    SEMICOLON)* s2=singleStatementStructBody
+    { $structBodyRet.addStatement($s2.singleStmtStructBodyRet); }
+    SEMICOLON?)+
+    ;
 
 //todo: done:)
 getBody returns[Statement getBodyRet]:
@@ -70,9 +108,24 @@ setBody returns[Statement setBodyRet]:
     NEWLINE+
     ;
 
-//todo
+//todo: done:)
 functionDeclaration returns[FunctionDeclaration functionDeclarationRet]:
-    (type | VOID ) identifier functionArgsDec body NEWLINE+;
+    { $functionDeclarationRet = new FunctionDeclaration(); }
+    (t=type
+    { $functionDeclarationRet.setReturnType($t.typeRet); }
+    | VOID
+    { $functionDeclarationRet.setReturnType(new VoidType()); }
+    ) i=identifier
+    {
+        $functionDeclarationRet.setFunctionName($i.idRet);
+        $functionDeclarationRet.setLine($i.line);
+    }
+    f=functionArgsDec
+    { $functionDeclarationRet.setArgs($f.argsRet); }
+    b=body
+    { $functionDeclarationRet.setBody($b.bodyRet); }
+    NEWLINE+
+    ;
 
 //todo: done:)
 functionArgsDec returns[ArrayList<VariableDeclaration> argsRet]:
@@ -116,7 +169,7 @@ body returns[Statement bodyRet]:
     ))
     ;
 
-//todo
+//todo: done:)
 loopCondBody returns[Statement loopCondBodyRet]:
      (b=blockStatement
      { $loopCondBodyRet = $b.blockStmtRet; }
@@ -195,7 +248,6 @@ functionCallStmt returns[FunctionCallStmt functionCallStmtRet]
     RPAR)
     ;
 
-
 //todo: done:)
 returnStatement returns[ReturnStmt returnStmtRet]:
     r=RETURN
@@ -208,25 +260,60 @@ returnStatement returns[ReturnStmt returnStmtRet]:
     )?
     ;
 
-//todo
+//todo: done:)
 ifStatement returns[ConditionalStmt ifStmtRet]:
-    IF expression (loopCondBody | body elseStatement);
+    i=IF e=expression
+    {
+        $ifStmtRet = new ConditionalStmt($e.exprRet);
+        $ifStmtRet.setLine($i.getLine());
+    }
+    (lc=loopCondBody
+    { $ifStmtRet.setThenBody($lc.loopCondBodyRet); }
+    | b=body
+    { $ifStmtRet.setThenBody($b.bodyRet); }
+    es=elseStatement
+    { $ifStmtRet.setElseBody($es.elseStmtRet); }
+    );
 
-//todo
-elseStatement :
-     NEWLINE* ELSE loopCondBody;
+//todo: done:)
+elseStatement returns[Statement elseStmtRet]:
+     NEWLINE* ELSE b=loopCondBody
+     { $elseStmtRet = $b.loopCondBodyRet; }
+     ;
 
-//todo
+//todo: done:)
 loopStatement returns[LoopStmt loopStmtRet]:
-    whileLoopStatement | doWhileLoopStatement;
+    w=whileLoopStatement
+    { $loopStmtRet = $w.whileStmtRet; }
+    | d=doWhileLoopStatement
+    { $loopStmtRet = $d.doWhileStmtRet; }
+    ;
 
-//todo
-whileLoopStatement :
-    WHILE expression loopCondBody;
+//todo: done:)
+whileLoopStatement returns[LoopStmt whileStmtRet]:
+    w=WHILE
+    {
+        $whileStmtRet = new LoopStmt();
+        $whileStmtRet.setLine($w.getLine());
+    }
+    e=expression
+    { $whileStmtRet.setCondition($e.exprRet); }
+    b=loopCondBody
+    { $whileStmtRet.setBody($b.loopCondBodyRet); }
+    ;
 
-//todo
-doWhileLoopStatement :
-    DO body NEWLINE* WHILE expression;
+//todo: done:)
+doWhileLoopStatement returns[LoopStmt doWhileStmtRet]:
+    d=DO
+    {
+        $doWhileStmtRet = new LoopStmt();
+        $doWhileStmtRet.setLine($d.getLine());
+    }
+    b=body
+    { $doWhileStmtRet.setBody($b.bodyRet); }
+    NEWLINE* WHILE e=expression
+    { $doWhileStmtRet.setCondition($e.exprRet); }
+    ;
 
 //todo: done:)
 displayStatement returns[DisplayStmt displayStmtRet]:
@@ -265,9 +352,15 @@ singleStatement returns[Statement stmtRet]:
     | l=loopStatement
     { $stmtRet = $l.loopStmtRet; }
     | a2=append
-    { $stmtRet = new ListAppendStmt($a2.listAppendRet); }
+    {
+        $stmtRet = new ListAppendStmt($a2.listAppendRet);
+        $stmtRet.setLine($a2.line);
+    }
     | s=size
-    { $stmtRet = new ListSizeStmt($s.listSizeRet); }
+    {
+        $stmtRet = new ListSizeStmt($s.listSizeRet);
+        $stmtRet.setLine($s.line);
+    }
     ;
 
 //todo: done:)
