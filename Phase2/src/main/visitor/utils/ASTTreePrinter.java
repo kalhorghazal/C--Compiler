@@ -1,4 +1,4 @@
-package main.visitor.name;
+package main.visitor.utils;
 
 import main.ast.nodes.*;
 import main.ast.nodes.declaration.*;
@@ -18,7 +18,7 @@ public class ASTTreePrinter extends Visitor<Void> {
         messagePrinter(program.getLine(), program.toString());
         for (StructDeclaration structDeclaration: program.getStructs())
             structDeclaration.accept(this);
-        for (FunctionDeclaration functionDeclaration:program.getFunctions())
+        for (FunctionDeclaration functionDeclaration: program.getFunctions())
             functionDeclaration.accept(this);
         program.getMain().accept(this);
         return null;
