@@ -6,19 +6,20 @@ import main.ast.nodes.declaration.MainDeclaration;
 import main.ast.nodes.declaration.VariableDeclaration;
 import main.ast.nodes.declaration.struct.StructDeclaration;
 import main.ast.nodes.statement.*;
-import main.compileError.nameError.DuplicateFunction;
-import main.compileError.nameError.FunctionStructConflict;
-import main.compileError.nameError.VarFunctionConflict;
-import main.compileError.nameError.VarStructConflict;
+import main.compileError.nameError.*;
 import main.symbolTable.SymbolTable;
-import main.symbolTable.exceptions.ItemAlreadyExistsException;
 import main.symbolTable.exceptions.ItemNotFoundException;
 import main.symbolTable.items.FunctionSymbolTableItem;
 import main.symbolTable.items.StructSymbolTableItem;
+import main.symbolTable.utils.graph.Graph;
 import main.visitor.Visitor;
 
 public class NameChecker extends Visitor<Void> {
-    private String currentClassName;
+    private Graph<String> structHierarchy;
+
+    public NameChecker(Graph<String> structHierarchy) {
+        this.structHierarchy = structHierarchy;
+    }
 
     public Void visit(Program program) {
         for (StructDeclaration structDeclaration: program.getStructs())
@@ -31,6 +32,15 @@ public class NameChecker extends Visitor<Void> {
 
     @Override
     public Void visit(StructDeclaration structDec) {
+        for (String child: structDec.getChildrenStructs()) {
+            if (this.structHierarchy.isSecondNodeAncestorOf(structDec.getStructName().getName(),
+                    child)) {
+                CyclicDependency exception = new CyclicDependency(structDec.getLine(),
+                        structDec.getStructName().getName());
+                structDec.addError(exception);
+                break;
+            }
+        }
         structDec.getBody().accept(this);
         return null;
     }

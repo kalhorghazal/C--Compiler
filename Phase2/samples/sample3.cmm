@@ -1,0 +1,19 @@
+struct A begin
+    struct B b;
+    struct D d
+end
+
+struct B
+    struct C c
+
+struct C
+    struct A a
+
+struct D begin
+    struct D d;
+    struct A a
+end
+
+main() begin
+    return 2
+end

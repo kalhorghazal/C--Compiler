@@ -1,0 +1,4 @@
+Line 1: Struct A is in dependency cycle
+Line 6: Struct B is in dependency cycle
+Line 9: Struct C is in dependency cycle
+Line 12: Struct D is in dependency cycle

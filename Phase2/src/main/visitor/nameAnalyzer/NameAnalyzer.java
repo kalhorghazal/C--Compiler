@@ -5,7 +5,7 @@ import main.symbolTable.utils.graph.Graph;
 
 public class NameAnalyzer {
     private Program program;
-    private Graph<String> classHierarchy;
+    private Graph<String> structHierarchy;
 
     public NameAnalyzer(Program program) {
         this.program = program;
@@ -13,13 +13,15 @@ public class NameAnalyzer {
 
     public void analyze() {
         NameCollector nameCollector = new NameCollector();
-        NameChecker nameChecker = new NameChecker();
+        GraphMaker graphMaker = new GraphMaker();
         this.program.accept(nameCollector);
+        this.structHierarchy = graphMaker.analyze(program);
+        NameChecker nameChecker = new NameChecker(getStructHierarchy());
         this.program.accept(nameChecker);
     }
 
-    public Graph<String> getClassHierarchy() {
-        return classHierarchy;
+    public Graph<String> getStructHierarchy() {
+        return structHierarchy;
     }
 
 }
