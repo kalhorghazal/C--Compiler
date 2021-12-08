@@ -35,5 +35,8 @@ public abstract class Node {
 
     public abstract <T> T accept(IVisitor<T> visitor);
 
+    public boolean hasError() {
+        return errors.size() != 0;
+    }
 }
 

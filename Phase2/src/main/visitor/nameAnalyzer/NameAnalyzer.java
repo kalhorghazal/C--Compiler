@@ -13,11 +13,9 @@ public class NameAnalyzer {
 
     public void analyze() {
         NameCollector nameCollector = new NameCollector();
-        //ParentLinker parentLinker = new ParentLinker();
-        //ParentsNameChecker parentsNameChecker = new ParentsNameChecker();
+        NameChecker nameChecker = new NameChecker();
         this.program.accept(nameCollector);
-       // this.classHierarchy = parentLinker.analyze(program);
-        // this.program.accept(parentsNameChecker);
+        this.program.accept(nameChecker);
     }
 
     public Graph<String> getClassHierarchy() {
