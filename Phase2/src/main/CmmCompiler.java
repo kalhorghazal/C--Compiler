@@ -23,7 +23,7 @@ public class CmmCompiler {
         nameAnalyzer.analyze();
         int numberOfErrors = program.accept(errorPrinter);
         if(numberOfErrors > 0) {
-            System.out.println("\n" + numberOfErrors + " errors detected");
+            //System.out.println("\n" + numberOfErrors + " errors detected");
             System.exit(1);
         }
         program.accept(astTreePrinter);

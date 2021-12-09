@@ -1,0 +1,25 @@
+struct st begin
+    bool a (int a) begin
+        set begin
+            int b;
+            a = b;
+        end
+        get
+            return a
+    end
+    int a, b;
+end
+
+main() begin
+    bool x
+    int i = 0
+    int la
+    while i < sz begin
+        int newVar
+        int la
+        while j < i
+            int newVar = 4
+            int la
+    end
+    int newVar = 10
+end

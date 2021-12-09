@@ -1,0 +1,5 @@
+Line 2: Variable a is already declared
+Line 10: Variable a is already declared
+Line 19: Variable la is already declared
+Line 21: Variable newVar is already declared
+Line 22: Variable la is already declared
