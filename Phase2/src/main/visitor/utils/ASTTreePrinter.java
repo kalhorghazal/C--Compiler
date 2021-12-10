@@ -126,7 +126,8 @@ public class ASTTreePrinter extends Visitor<Void> {
     public Void visit(ReturnStmt returnStmt) {
         //todo: done:)
         messagePrinter(returnStmt.getLine(), returnStmt.toString());
-        returnStmt.getReturnedExpr().accept(this);
+        if (returnStmt.getReturnedExpr() != null)
+            returnStmt.getReturnedExpr().accept(this);
         return null;
     }
 

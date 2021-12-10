@@ -127,7 +127,8 @@ public class ErrorPrinter extends Visitor<Integer> {
     @Override
     public Integer visit(ReturnStmt returnStmt) {
         int numOfErrors = printErrors(returnStmt);
-        numOfErrors += returnStmt.getReturnedExpr().accept(this);
+        if (returnStmt.getReturnedExpr() != null)
+            numOfErrors += returnStmt.getReturnedExpr().accept(this);
         return numOfErrors;
     }
 

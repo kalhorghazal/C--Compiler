@@ -1,0 +1,2 @@
+Line 5: Duplicate struct a
+Line 8: Duplicate struct a

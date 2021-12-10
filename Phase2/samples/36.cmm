@@ -1,0 +1,18 @@
+struct a begin
+    int b;
+end
+
+struct a
+    int c
+
+struct a begin
+    int b
+end
+
+struct a1
+    bool a2
+
+
+main()
+    return
+

@@ -1,0 +1,26 @@
+struct a begin
+    int b
+end
+
+struct a begin
+    int b
+end
+
+struct c begin
+    int b
+end
+
+struct c
+    int b
+
+struct c
+    int b
+
+struct a
+    int b
+
+struct d
+    int h
+
+main()
+    return
