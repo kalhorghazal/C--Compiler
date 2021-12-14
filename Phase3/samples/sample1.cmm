@@ -1,0 +1,33 @@
+struct A begin
+    int num
+    list #int idx
+    bool find (int arg) begin
+        set begin
+            int newArg = arg & var
+            find = arg
+            return find
+        end
+        get begin
+            return arg
+        end
+    end
+end
+
+
+struct B function(int arg1, bool arg2) begin
+    if arg1 > arg2 == arg1
+        return arg1
+    else
+        return 2
+end
+
+void f2()
+    return 3
+
+
+main() begin
+    struct A a;
+    a.i = 3
+    display(f2(1))
+    function(i, 2)
+end

@@ -1,0 +1,16 @@
+Line 6: Cannot define a new variable in this scope
+Line 6: Unsupported operand type for operator and
+Line 6: Variable var is not declared
+Line 7: Unsupported operand type for operator assign
+Line 8: Cannot use return statement in this scope
+Line 11: Variable arg is not declared
+Line 17: Struct B is not declared
+Line 18:Unsupported operand type for operator gt
+Line 19:Return value does not match with function return type
+Line 21:Return value does not match with function return type
+Line 25:Return value does not match with function return type
+Line 30:There is no member named i in struct A
+Line 31:Args in function call do not match with definition
+Line 31:Cannot use return value of a function having void return type
+Line 32:Args in function call do not match with definition
+Line 32:Variable i is not declared
