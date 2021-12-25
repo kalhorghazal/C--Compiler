@@ -66,6 +66,20 @@ public class TypeChecker extends Visitor<Void> {
                     //return null;
                 }
             }
+            if(retType instanceof ListType) {
+                Type rootType = getListRootType((ListType) retType);
+                if(rootType instanceof StructType) {
+                    String structName = ((StructType) rootType).getStructName().getName();
+                    try {
+                        String rootKey = StructSymbolTableItem.START_KEY + structName;
+                        StructSymbolTableItem structSymbolTableItem = (StructSymbolTableItem) SymbolTable.root.getItem(rootKey);
+                    } catch (ItemNotFoundException e) {
+                        StructNotDeclared exception = new StructNotDeclared(functionDec.getLine(), structName);
+                        functionDec.addError(exception);
+                        //return null;
+                    }
+                }
+            }
             funcSym.setReturnType(functionDec.getReturnType());
             funcSym.setFunctionSymbolTable(new SymbolTable());
         } catch (ItemNotFoundException e) {}
@@ -143,6 +157,20 @@ public class TypeChecker extends Visitor<Void> {
                 StructNotDeclared exception = new StructNotDeclared(variableDec.getLine(), structName);
                 variableDec.addError(exception);
                 //return null;
+            }
+        }
+        if(varType instanceof ListType) {
+            Type rootType = getListRootType((ListType) varType);
+            if(rootType instanceof StructType) {
+                String structName = ((StructType) rootType).getStructName().getName();
+                try {
+                    String key = StructSymbolTableItem.START_KEY + structName;
+                    StructSymbolTableItem structSymbolTableItem = (StructSymbolTableItem) SymbolTable.root.getItem(key);
+                } catch (ItemNotFoundException e) {
+                    StructNotDeclared exception = new StructNotDeclared(variableDec.getLine(), structName);
+                    variableDec.addError(exception);
+                    //return null;
+                }
             }
         }
         if(variableDec.getDefaultValue() != null) {
@@ -352,5 +380,13 @@ public class TypeChecker extends Visitor<Void> {
         //Todo: done:)
         listSizeStmt.getListSizeExpr().accept(expressionTypeChecker);
         return null;
+    }
+
+    public Type getListRootType(ListType listType) {
+        Type elementType = listType.getType();
+        while (elementType instanceof ListType) {
+            elementType = ((ListType) elementType).getType();
+        }
+        return elementType;
     }
 }
