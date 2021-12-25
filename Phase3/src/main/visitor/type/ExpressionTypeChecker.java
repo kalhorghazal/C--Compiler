@@ -12,6 +12,7 @@ import main.ast.types.primitives.VoidType;
 import main.compileError.typeError.*;
 import main.symbolTable.SymbolTable;
 import main.symbolTable.exceptions.ItemNotFoundException;
+import main.symbolTable.items.FunctionSymbolTableItem;
 import main.symbolTable.items.StructSymbolTableItem;
 import main.symbolTable.items.VariableSymbolTableItem;
 import main.visitor.Visitor;
@@ -20,6 +21,12 @@ import java.util.ArrayList;
 
 public class ExpressionTypeChecker extends Visitor<Type> {
     private boolean isInFuncCallStmt = false;
+    private boolean isInFunction = false;
+    private boolean isInStruct = false;
+    private boolean isInSetter = false;
+    private String currentFunctionName;
+    private String currentStructName;
+    private String currentSetGetName;
 
     @Override
     public Type visit(BinaryExpression binaryExpression) {
@@ -161,13 +168,13 @@ public class ExpressionTypeChecker extends Visitor<Type> {
     public Type visit(FunctionCall funcCall) {
         //Todo: done:)
         Type instanceType = funcCall.getInstance().accept(this);
-        boolean prevIsInMethodCallStmt = this.isInFuncCallStmt;
+        boolean prevIsInFunCallStmt = this.isInFuncCallStmt;
         this.setIsInFuncCallStmt(false);
         ArrayList<Type> argsTypes = new ArrayList<>();
         for(Expression arg : funcCall.getArgs()) {
             argsTypes.add(arg.accept(this));
         }
-        this.setIsInFuncCallStmt(prevIsInMethodCallStmt);
+        this.setIsInFuncCallStmt(prevIsInFunCallStmt);
         if(!(instanceType instanceof FptrType || instanceType instanceof NoType)) {
             CallOnNoneFptrType exception = new CallOnNoneFptrType(funcCall.getLine());
             funcCall.addError(exception);
@@ -202,6 +209,39 @@ public class ExpressionTypeChecker extends Visitor<Type> {
     public Type visit(Identifier identifier) {
         //Todo: done:)
         String varName = identifier.getName();
+        if(isInFunction) {
+            try {
+                String key = FunctionSymbolTableItem.START_KEY + currentFunctionName;
+                FunctionSymbolTableItem functionSymbolTableItem = (FunctionSymbolTableItem) SymbolTable.root.getItem(key);
+                SymbolTable functionSymbolTable = functionSymbolTableItem.getFunctionSymbolTable();
+                String varKey = VariableSymbolTableItem.START_KEY + varName;
+                VariableSymbolTableItem varSym = (VariableSymbolTableItem) functionSymbolTable.getItem(varKey);
+                return varSym.getType();
+            } catch (ItemNotFoundException e) {}
+        }
+        if(isInStruct) {
+            try {
+                String key = StructSymbolTableItem.START_KEY + currentStructName;
+                StructSymbolTableItem structSymbolTableItem = (StructSymbolTableItem) SymbolTable.root.getItem(key);
+                SymbolTable structSym = structSymbolTableItem.getStructSymbolTable();
+                String varKey = VariableSymbolTableItem.START_KEY + varName;
+                if(isInSetter) {
+                    try {
+                        String funcKey = FunctionSymbolTableItem.START_KEY + currentSetGetName;
+                        FunctionSymbolTableItem functionSymbolTableItem = (FunctionSymbolTableItem) structSym.getItem(funcKey);
+                        SymbolTable funcSym = functionSymbolTableItem.getFunctionSymbolTable();
+                        VariableSymbolTableItem varSym = (VariableSymbolTableItem) funcSym.getItem(varKey);
+                        return varSym.getType();
+                    } catch (ItemNotFoundException e) {}
+                }
+                VariableSymbolTableItem varSym = (VariableSymbolTableItem) structSym.getItem(varKey);
+                return varSym.getType();
+            } catch (ItemNotFoundException e) {}
+        }
+        try {
+            FunctionSymbolTableItem functionSymbolTableItem = (FunctionSymbolTableItem) SymbolTable.root.getItem(FunctionSymbolTableItem.START_KEY + varName);
+            return new FptrType(functionSymbolTableItem.getArgTypes(), functionSymbolTableItem.getReturnType());
+        } catch (ItemNotFoundException e) {}
         try {
             VariableSymbolTableItem variableSymbolTableItem = (VariableSymbolTableItem) SymbolTable.top.getItem(VariableSymbolTableItem.START_KEY + varName);
             return variableSymbolTableItem.getType();
@@ -251,7 +291,7 @@ public class ExpressionTypeChecker extends Visitor<Type> {
     public Type visit(StructAccess structAccess) {
         //Todo: done:)
         Type instanceType = structAccess.getInstance().accept(this);
-        Type elementType = structAccess.getElement().accept(this);
+        //Type elementType = structAccess.getElement().accept(this);
         String memberName = structAccess.getElement().getName();
         if(instanceType instanceof NoType) {
             return new NoType();
@@ -273,7 +313,7 @@ public class ExpressionTypeChecker extends Visitor<Type> {
             }
             try {
                 VariableSymbolTableItem variableSymbolTableItem = (VariableSymbolTableItem) structSymbolTable.getItem(VariableSymbolTableItem.START_KEY + memberName);
-                return elementType;
+                return variableSymbolTableItem.getType();
             } catch (ItemNotFoundException memberNotFound) {
                 StructMemberNotFound exception = new StructMemberNotFound(structAccess.getLine(), structName, memberName);
                 structAccess.addError(exception);
@@ -342,7 +382,31 @@ public class ExpressionTypeChecker extends Visitor<Type> {
         return true;
     }
 
-    public void setIsInFuncCallStmt(boolean _isInFuncCallStmt) {
-        isInFuncCallStmt = _isInFuncCallStmt;
+    public void setIsInFuncCallStmt(boolean isInFuncCallStmt) {
+        this.isInFuncCallStmt = isInFuncCallStmt;
+    }
+
+    public void setIsInFunction(boolean isInFunction) {
+        this.isInFunction = isInFunction;
+    }
+
+    public void setCurrentFunctionName(String functionName) {
+        this.currentFunctionName = functionName;
+    }
+
+    public void setIsInStruct(Boolean isInStruct) {
+        this.isInStruct = isInStruct;
+    }
+
+    public void setCurrentStruct(String currentStructName) {
+        this.currentStructName = currentStructName;
+    }
+
+    public void setIsInSetter(Boolean isInSetter) {
+        this.isInSetter = isInSetter;
+    }
+
+    public void setCurrentSetGetName(String currentSetGetName) {
+        this.currentSetGetName = currentSetGetName;
     }
 }
