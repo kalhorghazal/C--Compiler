@@ -1,0 +1,28 @@
+Line 3: Struct empty is not declared
+Line 8: Struct empty is not declared
+Line 11: Cannot define a new variable in this scope
+Line 12: Cannot define a new variable in this scope
+Line 13: Cannot define a new variable in this scope
+Line 13: Struct empty is not declared
+Line 13: Unsupported operand type for operator add
+Line 16: Variable co is not declared
+Line 17: Variable empty is not declared
+Line 17: Variable newlist is not declared
+Line 17: Unsupported operand type for operator gt
+Line 17: Variable gg is not declared
+Line 17: Unsupported operand type for operator div
+Line 19: Variable gg is not declared
+Line 24: Struct empty is not declared
+Line 25: Variable mi is not declared
+Line 25: Unsupported operand type for operator not
+Line 28: Left side of the assignment must be a valid lvalue
+Line 29: Cannot use return value of a function having void return type
+Line 31: There is no member named old in struct new
+Line 31: List index is not an integer
+Line 32: Return value does not match with function return type
+Line 33: Variable o is not declared
+Line 39: Cannot use return statement in this scope
+Line 39: There is no member named olfp in struct old
+Line 40: Cannot use return statement in this scope
+Line 40: Variable oldfp is not declared
+Line 40: Variable oldfp is not declared

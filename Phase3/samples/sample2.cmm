@@ -1,0 +1,40 @@
+struct Park begin
+    int tree_num
+    list # struct Tree trees
+    struct Tree newTree (struct Tree new) begin
+        set begin
+            append(trees, 2)
+            bool this = tree_num | new
+            tree_num = tree_num + 1
+            return new
+        end
+        get begin
+            return tree_num[trees]
+        end
+    end
+end
+
+struct Tree begin
+    bool t = true
+end
+
+void func() begin
+    a = a + 3 
+    int x, y
+    bool z = x & y
+    return x
+end
+
+main() begin
+    int a = 5
+    a = func(a) + a
+    struct Park park;
+    park.newTree = (1)
+    display(park.a)
+    if(park.tree_num) begin
+        bool x, y
+        bool z = x * y + 1
+        2 = x | y
+    end
+    return;
+end

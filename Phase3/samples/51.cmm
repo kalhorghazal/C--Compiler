@@ -1,0 +1,14 @@
+void f()
+    return
+
+void ff()
+    display(1)
+
+
+main() begin
+    f()
+    display(f)
+    display(f())
+    ff()
+    display(size(ff()))
+end

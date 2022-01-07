@@ -1,0 +1,27 @@
+Line 5: Struct Course is not declared
+Line 8: Struct Course is not declared
+Line 9: Variable i is not declared
+Line 10: Variable i is not declared
+Line 10: Variable j is not declared
+Line 12: Unsupported operand type for operator assign
+Line 13: Unsupported operand type for operator gt
+Line 14: Unsupported operand type for operator add
+Line 14: Unsupported operand type for operator mult
+Line 16: Left side of the assignment must be a valid lvalue
+Line 16: Unsupported operand type for operator add
+Line 19: Variable i is not declared
+Line 19: There is no member named major in struct Student
+Line 24: Cannot use return value of a function having void return type
+Line 26: New element type does not match with list type
+Line 28: Append to a non-list
+Line 29: Unsupported operand type for operator add
+Line 29: Get size of a non-list
+Line 30: Return value does not match with function return type
+Line 31: Access by index on a non-list
+Line 32: List index is not an integer
+Line 32: Access by index on a non-list
+Line 39: Condition must be bool
+Line 40: Cannot use return statement in this scope
+Line 40: Args in function call do not match with definition
+Line 40: Cannot use return value of a function having void return type
+Line 46: Unsupported operand type for operator assign

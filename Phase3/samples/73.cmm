@@ -1,0 +1,29 @@
+
+
+void  Main(int a, bool b, struct C c, fptr <void -> fptr<int -> void>> d) begin
+    f (c = ---a);
+    if (a - --b / --c * (a[b[a[--a]]])) begin
+
+          return size(((a * b ) + a * b /c));
+
+          display(a * b / (c - 2));
+
+
+    end
+    else
+       if (3 - 7 == -4) begin
+        list #bool ll
+        list #int  ii
+         append(ii, ll[true][true])
+         return true + size(ii)
+       end
+
+end
+
+fptr<void -> void> f(int c)
+  return r;
+
+bool r()
+  return f;
+main()
+    Main(f, 3, true);

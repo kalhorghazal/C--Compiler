@@ -1,0 +1,14 @@
+Line 3: Struct C is not declared
+Line 5: Unsupported operand type for operator minus
+Line 5: Access by index on a non-list
+Line 5: Access by index on a non-list
+Line 5: Access by index on a non-list
+Line 7: Unsupported operand type for operator mult
+Line 7: Unsupported operand type for operator mult
+Line 9: Unsupported operand type for operator mult
+Line 17: List index is not an integer
+Line 17: List index is not an integer
+Line 18: Unsupported operand type for operator add
+Line 24: Return value does not match with function return type
+Line 27: Return value does not match with function return type
+Line 29: Args in function call do not match with definition

@@ -1,0 +1,55 @@
+struct Teacher begin
+    bool goodTeacher = true
+    fptr <bool -> struct Student> detention (bool giveDetention) begin
+        set begin
+            goodTeacher = goodTeacher - 3
+            if (giveDetention | ~goodTeacher + f)
+                return x
+        end
+        get begin
+            fptr <bool -> struct Teacher> wrongFptr;
+            wrongFptr = func2
+        end
+    end
+end
+
+struct Student begin
+    list # bool thing (list # int otherThing) begin
+        set begin
+            thing = otherThing
+            if (thing == otherThing) begin
+                struct Teacher thisTeacher
+                display(thisTeacher)
+            end
+        end
+        get begin
+            return append(thing, true)
+        end
+    end
+end
+
+int func1 (list # struct Student students) begin
+    fptr <int -> int> x;
+    append(students, x)
+    return students[x].thing
+end
+
+int func2 (list # struct Teacher teachers) begin
+    bool teachersSize = size(teachers)
+    do begin
+        teachersSize = true
+        int x = 5
+        x(7)
+        append(x, 2)
+    end while (teachersSize > 1)
+    teachers[teachersSize] = false
+    return teachers
+end
+
+main() begin
+    fptr <list # struct Teacher -> int> func2Fptr = func2;
+    fptr <list # struct Student -> int> func1Fptr = func1;
+    func1Fptr(1, 1)
+    while (func1Fptr == func2Fptr)
+        1 = 1 + 1
+end

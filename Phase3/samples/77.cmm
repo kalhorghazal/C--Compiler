@@ -1,0 +1,52 @@
+/* this is a secret sample*/
+struct S begin
+    int x= 5*3+4/2,y;
+    list # list # int myList
+    fptr<list#list#int, bool-> bool> check;
+
+    bool isFull=false;
+    int capacity,ssize= x;
+    int calc(int _capacity, bool _isFull) begin
+            set begin
+                y = capacity * 2;f(x, y)
+            end
+            get begin
+                return size(append(myList, x*y-x/y));
+            end
+        end
+    bool LL = true;
+end
+
+struct v
+	int value,vvv;
+
+struct c begin
+     struct v val = 25 | (3+(3*2)-12*10/2) & -10;
+ end
+
+
+fptr<int -> list#int> g(bool a, int aa, int b, list#list#struct v v1, struct S s1 )begin
+	display(a);int i;i=b*5;
+    int j=i*b
+    display(b*2/10)
+    if (b-2 == 0)begin
+        append(v1,i*10);
+    end
+    else
+        append(v1,i*10/j)
+
+    while(b==0)begin
+        tmp = s1.calc(j,a);
+        b =-1
+    end
+end
+
+int f(int a, int b) begin
+	return a*(b + 10);
+end
+main()begin
+	int num=2 +2*( size(list1) );
+	display(num*f(num, 100))
+	display(100/size(list1));
+		int a=num+num*2;
+end

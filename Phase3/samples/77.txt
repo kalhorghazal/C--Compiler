@@ -1,0 +1,10 @@
+Line 14: New element type does not match with list type
+Line 24: Unsupported operand type for operator or
+Line 24: Unsupported operand type for operator and
+Line 28: Missing return statement for function g
+Line 33: New element type does not match with list type
+Line 36: New element type does not match with list type
+Line 39: Variable tmp is not declared
+Line 39: Calling a non-callable
+Line 48: Variable list1 is not declared
+Line 50: Variable list1 is not declared

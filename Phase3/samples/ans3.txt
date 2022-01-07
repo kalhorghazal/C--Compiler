@@ -1,0 +1,20 @@
+Line 5: Unsupported operand type for operator sub
+Line 6: Variable f is not declared
+Line 6: Unsupported operand type for operator add
+Line 7: Cannot use return statement in this scope
+Line 9: ? <<return nadare>>
+Line 11: Unsupported operand type for operator assign
+Line 19: Unsupported operand type for operator assign
+Line 20: Unsupported operand type for operator eq
+Line 22: Unsupported type for display
+Line 26: Return value does not match with function return type
+Line 33: New element type does not match with list type
+Line 34: List index is not an integer
+Line 35: Unsupported operand type for operator assign
+Line 42: Calling a non-callable
+Line 43: Unsupported operand type for operator gt
+Line 45: List index is not an integer
+Line 46: Return value does not match with function return type
+Line 52: Args in function call do not match with definition
+Line 53: Unsupported operand type for operator eq
+Line 54: Left side of the assignment must be a valid lvalue

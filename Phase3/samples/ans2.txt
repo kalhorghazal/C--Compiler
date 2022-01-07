@@ -1,0 +1,19 @@
+Line 6: New element type does not match with list type
+Line 7: Unsupported operand type for operator or
+Line 7: Cannot define a new variable in this scope
+Line 9: Cannot use return statement in this scope
+Line 12: Access by index on a non-list
+Line 12: List index is not an integer
+Line 22: Variable a is not declared
+Line 22: Variable a is not declared
+Line 24: Unsupported operand type for operator and
+Line 25: Return value does not match with function return type
+Line 30: Args in function call do not match with definition
+Line 30: Cannot use return value of a function having void return type
+Line 32: Args in function call do not match with definition
+Line 33: There is no member named a in struct Park
+Line 34: Condition must be bool
+Line 36: Unsupported operand type for operator mult
+Line 37: Left side of the assignment must be a valid lvalue
+Line 37: Unsupported operand type for operator assign
+Line 39: Cannot use return statement in this scope

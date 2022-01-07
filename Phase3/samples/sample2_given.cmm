@@ -1,0 +1,51 @@
+struct Student begin
+    list #int grades;
+    int gpa;
+    bool passed;
+    struct Course course;
+end
+
+struct Course findCourse(list #list #int course_id, int id) begin
+    i = size(course_id)
+    while (i < j) begin
+        struct Student student
+        student.grades = course_id;
+        if student.passed > id begin
+            int i = id * course_id + true
+            int a
+            a + true = id
+        end
+        else
+            return i & student.course | student.major
+    end
+end
+
+void function(list #int li) begin
+    return append(li, 2)
+    list #int li2
+    append(li, li2)
+    int li3
+    append(li3, true)
+    append(li + 2, size(size(li)))
+    return li[li3]
+    return li[0][0][0]
+    return li3[1][1][true]
+end
+
+
+main() begin
+    if true begin
+        int i
+        if i
+            return function()
+    end
+    else begin
+        bool i
+        if i & true begin
+            fptr<int, int -> void> fp1
+            fp1 = function
+        end
+    end
+
+
+end
