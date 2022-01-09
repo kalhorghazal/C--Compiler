@@ -1,0 +1,49 @@
+int f(int a, int b) begin
+    list #int li
+    append(li, a)
+    append(li, b)
+    append(li, a)
+    append(li, b)
+    append(li, b)
+    append(li, b)
+    display(li[b] * 2);
+    return 13;
+end
+
+fptr<int, int -> int> g()
+    return f;
+
+
+void h()
+    return
+
+
+fptr<void -> int> r()
+    return m
+
+int m() begin
+    display(1400)
+    return 15
+end
+
+
+int j(int a, int b) begin
+    display(a)
+    display(f(20, 1))
+    return 1
+end
+
+int k(int arg1, bool arg2, int arg3) begin
+    h();
+    g()(arg1, 2);
+    if (arg2)
+        return arg3;
+    else
+        display(j(arg3, arg3))
+
+    r()();
+    return 2;
+end
+
+main()
+    k(155, false, 1);

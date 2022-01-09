@@ -1,0 +1,65 @@
+struct ProductCatalog begin
+    int id
+    int price
+end
+
+struct Order begin
+    int quantity
+    struct ProductCatalog product
+end
+
+struct Order createOrder(struct ProductCatalog product, int quantity) begin
+    struct Order order
+    order.quantity = quantity
+    order.product = product
+    return order
+end
+
+int getSum(list #struct Order orders) begin
+    int i = 0
+    int total = 0
+    int current
+    while i < size(orders) begin
+        current = orders[i].product.price * orders[i].quantity + orders[i].quantity * 100 - orders[i].product.price / 100;
+        total = total + current
+        i = i + 1
+    end
+    return total
+end
+
+main() begin
+    int i
+    int total
+    list #struct ProductCatalog productCatalog
+    list #struct Order orders
+    struct Order order
+    i = 0
+    while i < 4 begin
+        struct ProductCatalog temp
+        temp.id = i
+        append(productCatalog, temp)
+        i = i + 1
+    end
+
+    productCatalog[0].price = 5000
+    productCatalog[1].price = 4000
+    productCatalog[2].price = 2000
+    productCatalog[3].price = 8000
+
+    i = 0
+    while i < 4 begin
+        order = createOrder(productCatalog[i], i + 1)
+        append(orders, order)
+        i = i + 1
+    end
+    total = getSum(orders)
+    display(total)
+end
+
+
+
+
+
+
+
+
