@@ -14,6 +14,8 @@ import main.symbolTable.*;
 import main.symbolTable.exceptions.*;
 import main.visitor.Visitor;
 import main.visitor.type.ExpressionTypeChecker;
+import main.visitor.type.TypeChecker;
+
 import java.io.*;
 import java.util.*;
 
@@ -21,8 +23,10 @@ public class  CodeGenerator extends Visitor<String> {
     ExpressionTypeChecker expressionTypeChecker = new ExpressionTypeChecker();
     private String outputPath;
     private FileWriter currentFile;
-    private FunctionDeclaration currentFunction;
-    private int tempVarSlot;
+    private Declaration currentFunction;
+    private int tempVarSlot = 0;
+    private int labelCounter = 0;
+
 
     private void copyFile(String toBeCopied, String toBePasted) {
         try {
@@ -101,29 +105,49 @@ public class  CodeGenerator extends Visitor<String> {
         int count = 1;
         if(currentFunction == null)
             return tempVarSlot++;
-        for (VariableDeclaration varDeclaration : currentFunction.getArgs()) {
-            if (varDeclaration.getVarName().getName().equals(identifier))
-                return count;
-            count++;
-        }
-        if(currentFunction.getBody() instanceof BlockStmt) {
-            for (Statement statement : ((BlockStmt) currentFunction.getBody()).getStatements()) {
-                if (statement instanceof VarDecStmt) {
-                    for (VariableDeclaration varDec : ((VarDecStmt) statement).getVars()) {
-                        if (varDec.getVarName().getName().equals(identifier))
-                            return count;
-                        count++;
-                    }
-                }
-                else
-                    break;
-            }
-        }
-        else if (currentFunction.getBody() instanceof VarDecStmt) {
-            for (VariableDeclaration varDec : ((VarDecStmt) currentFunction.getBody()).getVars()) {
-                if (varDec.getVarName().getName().equals(identifier))
+        if(currentFunction instanceof FunctionDeclaration) {
+            for (VariableDeclaration varDeclaration : ((FunctionDeclaration) currentFunction).getArgs()) {
+                if (varDeclaration.getVarName().getName().equals(identifier))
                     return count;
                 count++;
+            }
+            if (((FunctionDeclaration) currentFunction).getBody() instanceof BlockStmt) {
+                for (Statement statement : ((BlockStmt) ((FunctionDeclaration) currentFunction).getBody()).getStatements()) {
+                    if (statement instanceof VarDecStmt) {
+                        for (VariableDeclaration varDec : ((VarDecStmt) statement).getVars()) {
+                            if (varDec.getVarName().getName().equals(identifier))
+                                return count;
+                            count++;
+                        }
+                    } else
+                        break;
+                }
+            } else if (((FunctionDeclaration) currentFunction).getBody() instanceof VarDecStmt) {
+                for (VariableDeclaration varDec : ((VarDecStmt) ((FunctionDeclaration) currentFunction).getBody()).getVars()) {
+                    if (varDec.getVarName().getName().equals(identifier))
+                        return count;
+                    count++;
+                }
+            }
+        }
+        else if (currentFunction instanceof MainDeclaration) {
+            if (((MainDeclaration) currentFunction).getBody() instanceof BlockStmt) {
+                for (Statement statement : ((BlockStmt) ((MainDeclaration) currentFunction).getBody()).getStatements()) {
+                    if (statement instanceof VarDecStmt) {
+                        for (VariableDeclaration varDec : ((VarDecStmt) statement).getVars()) {
+                            if (varDec.getVarName().getName().equals(identifier))
+                                return count;
+                            count++;
+                        }
+                    } else
+                        break;
+                }
+            } else if (((MainDeclaration) currentFunction).getBody() instanceof VarDecStmt) {
+                for (VariableDeclaration varDec : ((VarDecStmt) ((MainDeclaration) currentFunction).getBody()).getVars()) {
+                    if (varDec.getVarName().getName().equals(identifier))
+                        return count;
+                    count++;
+                }
             }
         }
         //first empty var
@@ -152,6 +176,9 @@ public class  CodeGenerator extends Visitor<String> {
     public String visit(StructDeclaration structDeclaration) {
         createFile(structDeclaration.getStructName().getName());
         //todo
+        String structName = structDeclaration.getStructName().toString();
+        createFile(structName);
+        addCommand("");
         return null;
     }
 
@@ -180,25 +207,46 @@ public class  CodeGenerator extends Visitor<String> {
 
     @Override
     public String visit(AssignmentStmt assignmentStmt) {
-        //todo
+        //todo: done:)
+        String commands = this.visit(new BinaryExpression(assignmentStmt.getLValue(), assignmentStmt.getRValue(), BinaryOperator.assign));
+        addCommand(commands);
+        addCommand("pop");
         return null;
     }
 
     @Override
     public String visit(BlockStmt blockStmt) {
-        //todo
+        //todo: done:)
+        for (Statement statement: blockStmt.getStatements()) {
+            statement.accept(this);
+        }
         return null;
     }
 
     @Override
     public String visit(ConditionalStmt conditionalStmt) {
-        //todo
+        //todo: done:?
+        String elseLabel = getFreshLabel();
+        String exitLabel = getFreshLabel();
+        addCommand(conditionalStmt.getCondition().accept(this));
+        addCommand("ifeq " + elseLabel);
+        conditionalStmt.getThenBody().accept(this);
+        //if(!(conditionalStmt.getThenBody().accept(this.typeChecker)).doesReturn)
+        addCommand("goto " + exitLabel);
+        addCommand(elseLabel + ":");
+        if(conditionalStmt.getElseBody() != null)
+            conditionalStmt.getElseBody().accept(this);
+        addCommand(exitLabel + ":");
         return null;
     }
 
     @Override
     public String visit(FunctionCallStmt functionCallStmt) {
-        //todo
+        //todo: done:)
+        this.expressionTypeChecker.setInFunctionCallStmt(true);
+        functionCallStmt.getFunctionCall().accept(this);
+        this.expressionTypeChecker.setInFunctionCallStmt(false);
+        addCommand("pop");
         return null;
     }
 
@@ -231,19 +279,27 @@ public class  CodeGenerator extends Visitor<String> {
 
     @Override
     public String visit(VarDecStmt varDecStmt) {
-        //todo
+        //todo: done:)
+        for (VariableDeclaration varDec : varDecStmt.getVars()) {
+            varDec.accept(this);
+        }
         return null;
     }
 
     @Override
     public String visit(ListAppendStmt listAppendStmt) {
-        //todo
+        //todo: done:)
+        this.expressionTypeChecker.setInFunctionCallStmt(true);
+        listAppendStmt.getListAppendExpr().accept(this);
+        this.expressionTypeChecker.setInFunctionCallStmt(false);
         return null;
     }
 
     @Override
     public String visit(ListSizeStmt listSizeStmt) {
-        //todo
+        //todo: done:)
+        listSizeStmt.accept(this);
+        addCommand("pop");
         return null;
     }
 
@@ -310,5 +366,9 @@ public class  CodeGenerator extends Visitor<String> {
     @Override
     public String visit(ExprInPar exprInPar) {
         return exprInPar.getInputs().get(0).accept(this);
+    }
+
+    private String getFreshLabel() {
+        return "Label_" + this.labelCounter++;
     }
 }
