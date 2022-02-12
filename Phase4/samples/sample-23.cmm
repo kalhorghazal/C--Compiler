@@ -1,0 +1,23 @@
+
+void f(int x) begin
+    display(x);
+    display(x + 2);
+    display(x - 2);
+    display(x * 2);
+    display(x / 2);
+end
+
+void g(int x, int y) begin
+    display(x);
+    display(y);
+    display(x + y);
+    display(x - y);
+    display(x * y);
+    display(x / y);
+end
+
+
+main() begin
+    f(22);
+    g(64, 16);
+end

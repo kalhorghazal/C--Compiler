@@ -1,0 +1,40 @@
+
+
+bool f(int i)
+    return true;
+
+
+bool k(int j)
+    return false;
+
+
+int noUse() begin
+    display(true | false & true);
+    return 1 * 3;
+end
+
+void start() begin
+    list #int coco
+    display(f(1));
+    display(k(3));
+    if (f == f)
+        display(true | (2 / 1 == 3));
+    if (f == k)
+        display(true);
+    append(coco, 2)
+    append(coco, 4)
+    append(coco, 6)
+    append(coco, 5)
+    recursive(coco, 3);
+    return
+end
+void  recursive(list #int li, int i) begin
+    if (i > 0 | i == 0) begin
+        append(li, li[i] * 2 + 1)
+        recursive(li , i - 1);
+    end
+    display(i);
+end
+
+main()
+    start();

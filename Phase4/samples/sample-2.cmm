@@ -1,0 +1,19 @@
+void foo() begin
+    display(10001)
+end
+
+void bar(int a) begin
+    if (a < 0)
+        return;
+    display(a * 2);
+    bar(a-1)
+end
+
+main() begin
+    fptr <void -> void> f
+    fptr <int -> void> g
+    f = foo
+    f()
+    g = bar
+    g(5);
+end

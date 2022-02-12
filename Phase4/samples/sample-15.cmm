@@ -1,0 +1,69 @@
+struct Person begin
+  int age;
+end
+
+class Student extends Person {
+  sid: string;
+  courses: list(10 # Course);
+  def Student(name: string, age: int, sid: string) {
+    this.name = name;
+    this.age = age;
+    this.sid = sid;
+  }
+  def void updateSid(sid: string) {
+    this.sid = sid;
+  }
+  def int getTotalCredits() {
+  	i: int;
+    sum: int;
+    current: Course;
+    for (i = 0; i < 10; i = i + 1) {
+      current = this.courses[i];
+      sum = sum + current.credits;
+    }
+    return sum;
+  }
+  def void enroll(course: Course, i: int) {
+    this.courses[i] = course;
+  }
+}
+
+class Course {
+  cid: string;
+  name: string;
+  instructor: Person;
+  credits: int;
+  def Course(cid: string, name: string, credits: int) {
+    this.cid = cid;
+    this.name = name;
+    this.credits = credits;
+  }
+  def void setInstructor(instructor: Person) {
+    this.instructor = instructor;
+  }
+}
+
+main() begin
+    Person inst;
+    Student stu;
+    Course course1;
+    int i;
+    inst.age = 42;
+    inst.showName();
+    stu = new Student("Hannah", 20, "810196488");
+    stu.showName();
+    course1 = new Course("810157401", "PLC", 3);
+    course1.setInstructor(inst);
+    stu.enroll(course1, 0);
+    for (i = 0; i < 3; i = i + 1) {
+      stu.enroll(new Course("810157401", "PLC", 3), i + 1);
+    }
+    for (i = 0; i < 3; i = i + 1) {
+      stu.enroll(new Course("810157401", "PLC", 2), i + 4);
+    }
+    for (i = 0; i < 3; i = i + 1) {
+      stu.enroll(new Course("810157401", "PLC", 1), i + 7);
+    }
+    print(stu.getTotalCredits());
+  }
+end

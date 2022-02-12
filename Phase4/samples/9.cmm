@@ -1,0 +1,50 @@
+struct A begin
+   int a
+   struct B b
+end
+
+struct B
+    int b
+
+
+
+int foo(struct B b) begin
+
+       b.b = 10;
+       while(b.b < 17) begin
+
+            b.b = b.b + 1;
+
+        end
+        display(b.b)
+        return 2;
+end
+main() begin
+    int i, j
+    struct A a
+    while (i < 10) begin
+
+        while j < i begin
+
+            display(i)
+            display(j)
+            j = j + 1
+        end
+         i = i + 1
+    end
+
+
+
+        display(a.a);
+        a.a = a.a + 1;
+        display(a.a);
+        a.a = a.a + 1
+        i = a.a + 1;
+        display(a.a);
+        display(i);
+
+         display(a.b.b);
+         a.b.b = a.b.b + 1
+         display(a.b.b);
+        display(foo(a.b));
+end

@@ -1,0 +1,23 @@
+
+
+list #int f1(list #int a) begin
+    display(size(a));
+    f2(a);
+    return a;
+end
+
+void f2(list #int a) begin
+    int list_size;
+    append(a, 4);
+    list_size = size(a);
+    display(list_size);
+end
+
+main() begin
+    list #int my_list;
+    append(my_list, 1);
+    append(my_list, 2);
+    append(my_list, 3);
+
+    display(size(f1(my_list)));
+end

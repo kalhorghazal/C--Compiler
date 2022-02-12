@@ -1,0 +1,19 @@
+main() begin
+     int i;
+     list #int li;
+     list #int li2;
+     int dot;
+     append(li, 2);
+     append(li, 4);
+     append(li, 5);
+     append(li2, 6);
+     append(li2, 7);
+     append(li2, 8);
+     dot = 0;
+     i = 0
+     while(i < 3) begin
+        dot = dot + li[i] * li2[i];
+        i = i+ 1
+     end
+     display(dot);
+ end

@@ -1,0 +1,20 @@
+struct point begin
+    int x
+    int y
+    bool z
+end
+
+main() begin
+    struct point a
+    struct point b
+    display(b.x)
+    display(b.y)
+    display(b.z)
+    a.x = 4
+    a.y = 7
+    a.z = true
+    b = a
+    display(b.x)
+    display(b.y)
+    display(b.z)
+end

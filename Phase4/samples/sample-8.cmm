@@ -1,0 +1,38 @@
+struct A begin
+    bool constructor_called = true
+end
+
+bool foo() begin
+    return true | 2/0 == 3
+end
+
+void bar() begin
+    display(true)
+end
+
+main() begin
+    fptr <void ->void> f
+    struct A aa;
+    if(true)
+        display(1)
+    else
+        display(0)
+    if(foo())
+        display(true)
+    else
+        display(false)
+    if(false & (1/0 == 2)) begin
+        display(80000)
+        if(2==3)
+            display(213)
+    end
+    else
+        display(203)
+    f = bar
+    if(aa.constructor_called) begin
+        display(true)
+        f()
+    end
+    else
+        display(false)
+end

@@ -1,0 +1,18 @@
+struct A begin
+    fptr<int -> void> a
+end
+
+void bar(int aa) begin
+    display(aa)
+end
+
+void foo(int aa) begin
+    struct A a_struct
+    display(aa)
+    a_struct.a = bar
+    a_struct.a(aa + 10)
+end
+
+main() begin
+    foo(23);
+end

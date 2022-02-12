@@ -1,2 +1,0 @@
-Line 22: Left side of the assignment must be a valid lvalue
-Line 22: Left side of the assignment must be a valid lvalue

@@ -1,0 +1,12 @@
+main() begin
+     int i;
+     int j;
+     i = 2;
+     j = 5;
+     if (i * 12 > j * 20 - 90)
+        display(true);
+
+     else
+     if (i < j)
+        display(false);
+end

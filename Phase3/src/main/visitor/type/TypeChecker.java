@@ -46,7 +46,7 @@ public class TypeChecker extends Visitor<Void> {
         for (StructDeclaration structDeclaration: program.getStructs())
             structDeclaration.accept(this);
         for (FunctionDeclaration functionDeclaration:program.getFunctions()) {
-            this.currentFunction = functionDeclaration;
+                this.currentFunction = functionDeclaration;
             functionDeclaration.accept(this);
         }
         program.getMain().accept(this);
@@ -86,31 +86,6 @@ public class TypeChecker extends Visitor<Void> {
                         StructNotDeclared exception = new StructNotDeclared(functionDec.getLine(), structName);
                         functionDec.addError(exception);
                         //return null;
-                    }
-                }
-            }
-            if(retType instanceof FptrType) {
-                for (Type argType: ((FptrType) retType).getArgsType()) {
-                    if(argType instanceof StructType) {
-                        String structName = ((StructType) argType).getStructName().getName();
-                        try {
-                            String rootKey = StructSymbolTableItem.START_KEY + structName;
-                            StructSymbolTableItem structSymbolTableItem = (StructSymbolTableItem) SymbolTable.root.getItem(rootKey);
-                        } catch (ItemNotFoundException e) {
-                            StructNotDeclared exception = new StructNotDeclared(functionDec.getLine(), structName);
-                            functionDec.addError(exception);
-                        }
-                    }
-                }
-                Type rrType = ((FptrType) retType).getReturnType();
-                if(rrType instanceof StructType) {
-                    String structName = ((StructType) rrType).getStructName().getName();
-                    try {
-                        String rootKey = StructSymbolTableItem.START_KEY + structName;
-                        StructSymbolTableItem structSymbolTableItem = (StructSymbolTableItem) SymbolTable.root.getItem(rootKey);
-                    } catch (ItemNotFoundException e) {
-                        StructNotDeclared exception = new StructNotDeclared(functionDec.getLine(), structName);
-                        functionDec.addError(exception);
                     }
                 }
             }
@@ -237,31 +212,6 @@ public class TypeChecker extends Visitor<Void> {
                 }
             }
         }
-        if(varType instanceof FptrType) {
-            for (Type argType: ((FptrType) varType).getArgsType()) {
-                if(argType instanceof StructType) {
-                    String structName = ((StructType) argType).getStructName().getName();
-                    try {
-                        String rootKey = StructSymbolTableItem.START_KEY + structName;
-                        StructSymbolTableItem structSymbolTableItem = (StructSymbolTableItem) SymbolTable.root.getItem(rootKey);
-                    } catch (ItemNotFoundException e) {
-                        StructNotDeclared exception = new StructNotDeclared(variableDec.getLine(), structName);
-                        variableDec.addError(exception);
-                    }
-                }
-            }
-            Type rrType = ((FptrType) varType).getReturnType();
-            if(rrType instanceof StructType) {
-                String structName = ((StructType) rrType).getStructName().getName();
-                try {
-                    String rootKey = StructSymbolTableItem.START_KEY + structName;
-                    StructSymbolTableItem structSymbolTableItem = (StructSymbolTableItem) SymbolTable.root.getItem(rootKey);
-                } catch (ItemNotFoundException e) {
-                    StructNotDeclared exception = new StructNotDeclared(variableDec.getLine(), structName);
-                    variableDec.addError(exception);
-                }
-            }
-        }
         if(variableDec.getDefaultValue() != null) {
             Type valType = variableDec.getDefaultValue().accept(expressionTypeChecker);
             if(varType instanceof NoType || valType instanceof NoType) {
@@ -331,10 +281,10 @@ public class TypeChecker extends Visitor<Void> {
     @Override
     public Void visit(AssignmentStmt assignmentStmt) {
         //Todo: done:)
-        expressionTypeChecker.hasSeenNoneLValue = false;
         Type firstType = assignmentStmt.getLValue().accept(expressionTypeChecker);
-        boolean leftIsLvalue = !expressionTypeChecker.hasSeenNoneLValue;
         Type secondType = assignmentStmt.getRValue().accept(expressionTypeChecker);
+        Expression left = assignmentStmt.getLValue();
+        boolean leftIsLvalue = isLvalue(left);
         if(!leftIsLvalue) {
             LeftSideNotLvalue exception = new LeftSideNotLvalue(assignmentStmt.getLine());
             assignmentStmt.addError(exception);
@@ -407,21 +357,16 @@ public class TypeChecker extends Visitor<Void> {
         if(isInFunction || isInGetter) {
             doesReturn = true;
         }
-        Type retExpr;
-        if (returnStmt.getReturnedExpr() != null)
-            retExpr = returnStmt.getReturnedExpr().accept(expressionTypeChecker);
-        else
-            retExpr = null;
         if(isInMain || isInSetter) {
             CannotUseReturn expression = new CannotUseReturn(returnStmt.getLine());
             returnStmt.addError(expression);
-            //if(returnStmt.getReturnedExpr() != null)
-                //returnStmt.getReturnedExpr().accept(expressionTypeChecker);
+            if(returnStmt.getReturnedExpr() != null)
+                returnStmt.getReturnedExpr().accept(expressionTypeChecker);
             return null;
         }
         Type retType;
         if(returnStmt.getReturnedExpr() != null) {
-            retType = retExpr;
+            retType = returnStmt.getReturnedExpr().accept(expressionTypeChecker);
         }
         else {
             retType = new VoidType();
@@ -533,11 +478,6 @@ public class TypeChecker extends Visitor<Void> {
 
             return true;
         }
-        else if(first instanceof VoidType) {
-            if (!(second instanceof VoidType))
-                return false;
-            return true;
-        }
         return false;
     }
 
@@ -570,16 +510,6 @@ public class TypeChecker extends Visitor<Void> {
                     return true;
                 }
             }
-        }
-        return hasFptrStructError(type);
-    }
-
-    Boolean hasFptrStructError(Type type) {
-        if(type instanceof FptrType) {
-            for (Type argType: ((FptrType) type).getArgsType()) {
-                if(hasDeclaredStructError(argType)) return true;
-            }
-            return hasDeclaredStructError(((FptrType) type).getReturnType());
         }
         return false;
     }

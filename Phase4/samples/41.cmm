@@ -1,0 +1,73 @@
+
+
+bool f() begin
+   int arg1, arg2, arg3
+   list #int tt
+   int i = 1
+   g(arg1 = 9, arg2 = 2, arg3=3);
+   h()(7, 8, 11);
+   h()(arg1, arg2, arg3);
+   c1(1);
+   c2(1);
+   c3(1);
+   display(selector(5, 3, 5 > 3, true)(10));
+   display(selector(3, 5, 3 > 5, true)(10));
+   display(selector(2, 2, 2 > 2, true)(10));
+   while i < 8 begin
+        append(tt, i)
+        i = i + 1
+   end
+   x(0, tt);
+   return true;
+end
+
+void g(int arg1, int arg2, int arg3) begin
+    display(arg1 * arg2  + arg3 - arg1);
+    return ;
+
+end
+
+fptr <int, int, int -> void> h()
+    return g;
+
+
+int c1(int a) begin
+    display(1);
+    return 2 * a;
+end
+
+int c2(int a) begin
+    display(2);
+    return (a * 24 / 2);
+end
+
+int c3(int a) begin
+    display(3);
+    return a - 1000;
+end
+
+fptr<int -> int> selector(int arg1, int arg2, bool arg3, bool arg4) begin
+    if ((arg1 > arg2) & arg3 | (arg4))
+        return c1;
+
+    else begin
+        if (arg1 + arg2 == arg2 * arg1)
+            return c2;
+
+        else
+            return c3;
+
+    end
+    return c1;
+end
+
+void x(int i, list #int L) begin
+    if (i == size(L))
+        return
+
+    display(L[i]);
+    x(i+1, L);
+end
+
+main()
+    display(f());

@@ -1,4 +1,0 @@
-Line 10: Unsupported type for display
-Line 11: Cannot use return value of a function having void return type
-Line 13: Cannot use return value of a function having void return type
-

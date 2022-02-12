@@ -4,7 +4,7 @@ struct Teacher begin
         set begin
             goodTeacher = goodTeacher - 3
             if (giveDetention | ~goodTeacher + f)
-                return x
+                return fptr
         end
         get begin
             fptr <bool -> struct Teacher> wrongFptr;

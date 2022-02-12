@@ -1,0 +1,29 @@
+struct A begin
+    int x
+end
+
+main() begin
+	int i
+	list #int li
+	int sum
+	sum = 0
+	append(li, 2)
+	append(li, 3)
+	append(li, 4)
+	append(li, 0)
+
+	/*while(i < size(li)) begin
+		sum = sum + li[i];
+        display(sum);
+        i = i + 1
+	end*/
+
+	do begin
+	    sum = sum + li[i];
+        display(sum);
+        i = i + 1
+	end
+	while(i < size(li)-1)
+	
+	display(sum * 2);
+end

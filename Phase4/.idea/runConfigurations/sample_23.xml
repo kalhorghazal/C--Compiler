@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="sample2" type="Application" factoryName="Application">
+  <configuration default="false" name="sample-23" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="main.Cmm" />
-    <module name="Phase3" />
-    <option name="PROGRAM_PARAMETERS" value="samples/sample2.cmm" />
+    <module name="Phase4" />
+    <option name="PROGRAM_PARAMETERS" value="samples/sample-23.cmm" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

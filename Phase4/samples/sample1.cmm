@@ -33,13 +33,21 @@ main() begin
     list #struct ProductCatalog productCatalog
     list #struct Order orders
     struct Order order
-    i = 0
-    while i < 4 begin
-        struct ProductCatalog temp
-        temp.id = i
-        append(productCatalog, temp)
-        i = i + 1
-    end
+    struct ProductCatalog member1
+    struct ProductCatalog member2
+    struct ProductCatalog member3
+    struct ProductCatalog member4
+
+    member1.id = 0
+    member2.id = 1
+    member3.id = 2
+    member4.id = 3
+
+    append(productCatalog, member1)
+    append(productCatalog, member2)
+    append(productCatalog, member3)
+    append(productCatalog, member4)
+
 
     productCatalog[0].price = 5000
     productCatalog[1].price = 4000
@@ -55,7 +63,6 @@ main() begin
     total = getSum(orders)
     display(total)
 end
-
 
 
 

@@ -28,17 +28,13 @@ public class ExpressionTypeChecker extends Visitor<Type> {
     private String currentFunctionName;
     private String currentStructName;
     private String currentSetGetName;
-    public boolean hasSeenNoneLValue = false;
 
     @Override
     public Type visit(BinaryExpression binaryExpression) {
         //Todo: done:)
-        hasSeenNoneLValue = false;
         BinaryOperator operator = binaryExpression.getBinaryOperator();
         Type firstType = binaryExpression.getFirstOperand().accept(this);
-        boolean isFirstOperandLHS = !hasSeenNoneLValue;
         Type secondType = binaryExpression.getSecondOperand().accept(this);
-        hasSeenNoneLValue = true;
         if(operator == BinaryOperator.eq) {
             if(firstType instanceof NoType && secondType instanceof NoType) {
                 return new NoType();
@@ -110,7 +106,7 @@ public class ExpressionTypeChecker extends Visitor<Type> {
         }
         if(operator == BinaryOperator.assign) {
             Expression left = binaryExpression.getFirstOperand();
-            boolean leftIsLvalue = isFirstOperandLHS;
+            boolean leftIsLvalue = isLvalue(left);
             if(!leftIsLvalue) {
                 LeftSideNotLvalue exception = new LeftSideNotLvalue(binaryExpression.getLine());
                 binaryExpression.addError(exception);
@@ -159,12 +155,11 @@ public class ExpressionTypeChecker extends Visitor<Type> {
         //Todo: done:)
         Type instanceType = funcCall.getInstance().accept(this);
         boolean prevIsInFunCallStmt = this.isInFuncCallStmt;
-        this.setIsInFuncCallStmt(false);
+        this.setIsInFuncCallStmt(false); //chera inja ro false mikonim?
         ArrayList<Type> argsTypes = new ArrayList<>();
         for(Expression arg : funcCall.getArgs()) {
             argsTypes.add(arg.accept(this));
         }
-        hasSeenNoneLValue = true;
         this.setIsInFuncCallStmt(prevIsInFunCallStmt);
         if(!(instanceType instanceof FptrType || instanceType instanceof NoType)) {
             CallOnNoneFptrType exception = new CallOnNoneFptrType(funcCall.getLine());
@@ -228,13 +223,6 @@ public class ExpressionTypeChecker extends Visitor<Type> {
                         VariableSymbolTableItem varSym = (VariableSymbolTableItem) funcSym.getItem(varKey);
                         return varSym.getType();
                     } catch (ItemNotFoundException e) {
-                        try {
-                            FunctionSymbolTableItem functionSymbolTableItem = (FunctionSymbolTableItem) SymbolTable.root.getItem(FunctionSymbolTableItem.START_KEY + varName);
-                            hasSeenNoneLValue = true;
-                            return new FptrType(functionSymbolTableItem.getArgTypes(), functionSymbolTableItem.getReturnType());
-                        } catch (ItemNotFoundException e2) {
-                            hasSeenNoneLValue = false;
-                        }
                         VarNotDeclared exception = new VarNotDeclared(identifier.getLine(), varName);
                         identifier.addError(exception);
                         return new NoType();
@@ -246,11 +234,8 @@ public class ExpressionTypeChecker extends Visitor<Type> {
         }
         try {
             FunctionSymbolTableItem functionSymbolTableItem = (FunctionSymbolTableItem) SymbolTable.root.getItem(FunctionSymbolTableItem.START_KEY + varName);
-            hasSeenNoneLValue = true;
             return new FptrType(functionSymbolTableItem.getArgTypes(), functionSymbolTableItem.getReturnType());
-        } catch (ItemNotFoundException e) {
-            hasSeenNoneLValue = false;
-        }
+        } catch (ItemNotFoundException e) {}
         try {
             VariableSymbolTableItem variableSymbolTableItem = (VariableSymbolTableItem) SymbolTable.top.getItem(VariableSymbolTableItem.START_KEY + varName);
             return variableSymbolTableItem.getType();
@@ -265,9 +250,7 @@ public class ExpressionTypeChecker extends Visitor<Type> {
     public Type visit(ListAccessByIndex listAccessByIndex) {
         //Todo: done:)
         Type instanceType = listAccessByIndex.getInstance().accept(this);
-        boolean temp = hasSeenNoneLValue;
         Type indexType = listAccessByIndex.getIndex().accept(this);
-        hasSeenNoneLValue = temp;
         if(instanceType instanceof NoType && indexType instanceof NoType) {
             return new NoType();
         }
@@ -301,9 +284,7 @@ public class ExpressionTypeChecker extends Visitor<Type> {
     @Override
     public Type visit(StructAccess structAccess) {
         //Todo: done:)
-        boolean temp = hasSeenNoneLValue;
         Type instanceType = structAccess.getInstance().accept(this);
-        hasSeenNoneLValue = temp;
         //Type elementType = structAccess.getElement().accept(this);
         String memberName = structAccess.getElement().getName();
         if(instanceType instanceof NoType) {
@@ -339,7 +320,6 @@ public class ExpressionTypeChecker extends Visitor<Type> {
     public Type visit(ListSize listSize) {
         //Todo: done:)
         Type argType = listSize.getArg().accept(this);
-        if(argType instanceof NoType) return new NoType();
         if(argType instanceof ListType)
             return new IntType();
         GetSizeOfNonList exception = new GetSizeOfNonList(listSize.getLine());
@@ -352,6 +332,8 @@ public class ExpressionTypeChecker extends Visitor<Type> {
         //Todo: done:)
         boolean hasError = false;
         if(!isInAppendStmt) {
+            CantUseValueOfVoidFunction expression = new CantUseValueOfVoidFunction(listAppend.getLine());
+            listAppend.addError(expression);
             hasError = true;
         }
         Type listArgType = listAppend.getListArg().accept(this);
@@ -362,11 +344,8 @@ public class ExpressionTypeChecker extends Visitor<Type> {
         if(listArgType instanceof ListType) {
             Type neededElementType = ((ListType) listArgType).getType();
             if(isFirstSubTypeOfSecond(elementArgType, neededElementType)){
-                if(hasError) {
-                    CantUseValueOfVoidFunction expression = new CantUseValueOfVoidFunction(listAppend.getLine());
-                    listAppend.addError(expression);
+                if(hasError)
                     return new NoType();
-                }
                 return new VoidType();
             }
             else {
@@ -389,14 +368,12 @@ public class ExpressionTypeChecker extends Visitor<Type> {
     @Override
     public Type visit(IntValue intValue) {
         //Todo: done:)
-        hasSeenNoneLValue = true;
         return new IntType();
     }
 
     @Override
     public Type visit(BoolValue boolValue) {
         //Todo: done:)
-        hasSeenNoneLValue = true;
         return new BoolType();
     }
 
@@ -469,9 +446,11 @@ public class ExpressionTypeChecker extends Visitor<Type> {
     }
 
     public boolean isLvalue(Expression expression) {
-        hasSeenNoneLValue = false;
-        expression.accept(this);
-        return !hasSeenNoneLValue;
+        if(!(expression instanceof Identifier || expression instanceof StructAccess ||
+                expression instanceof ListAccessByIndex)) {
+            return false;
+        }
+        return true;
     }
 
     public void setIsInFuncCallStmt(boolean isInFuncCallStmt) {

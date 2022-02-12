@@ -28,4 +28,7 @@ public class List {
 
     public void addElement(Object o) {this.elements.add(getNewObject(o));}
 
+    public void setElement(int index, Object o) {
+        this.elements.set(index, getNewObject(o));
+    }
 }

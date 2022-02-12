@@ -1,0 +1,39 @@
+struct A
+   int a
+
+
+
+int f1(int i, struct A a) begin
+      int k
+      k = i - a.a;
+      display(i * a.a);
+      a.a = i;
+
+      return k;
+end
+struct A met(list #int l, struct A a) begin
+      int i
+      a.a = 1;
+      do begin
+        display(f1(l[i], a))
+        i = i + 1
+      end
+      while i < 8
+      return a
+end
+
+
+main() begin
+    struct A c
+    list #int l
+    append(l, 2)
+    append(l, 3)
+    append(l, 4)
+    append(l, 6)
+    append(l, 12)
+    append(l, 7)
+    append(l, 11)
+    append(l, 81)
+    append(l, 99)
+    c = met(l, c)
+end

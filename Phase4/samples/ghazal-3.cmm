@@ -1,0 +1,10 @@
+main() begin
+    list #int a2
+    int a = 1
+    int b = 4
+    int c
+    c = a = b
+    display(a)
+    display(c)
+    size(a2)
+end

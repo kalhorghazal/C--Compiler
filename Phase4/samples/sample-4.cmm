@@ -1,0 +1,29 @@
+struct A begin
+    int a = 3
+end
+
+struct B begin
+    int a = 4
+end
+
+struct B foo1(struct A a) begin
+    struct B b
+    return b
+end
+
+struct A foo2(struct A a) begin
+    display(1111)
+    return a
+end
+
+main() begin
+    int i
+    fptr <struct A -> struct B> f
+    struct A c
+    fptr <struct A -> struct A> g
+    i = i + 1
+    f = foo1
+    display(f(c).a)
+    g = foo2
+    display(g(c).a)
+end
