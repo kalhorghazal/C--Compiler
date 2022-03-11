@@ -2,7 +2,7 @@
 ### What does it do? 
 It is a compiler for C-- programming language. (You can see [C-- Documentation](https://github.com/kalhorghazal/C--Compiler/wiki/Cmm-Documentation))
 
-In [Phase 1](https://github.com/kalhorghazal/C--Compiler/tree/master/Phase1), the lexer of C-- is made in Cmm.g4 using [Antlr](https://github.com/antlr/antlr4)
+In [Phase 1](https://github.com/kalhorghazal/C--Compiler/tree/master/Phase1), the lexer of C-- is made in Cmm.g4 using [Antlr](https://github.com/antlr/antlr4).
 
 In [Phase 2](https://github.com/kalhorghazal/C--Compiler/tree/master/Phase2), the AST is constructed from lexical analysis and the symbol table is filled. Finally, it shows up semantic errors.
 
