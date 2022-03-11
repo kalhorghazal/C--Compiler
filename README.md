@@ -2,13 +2,13 @@
 ### What does it do? 
 It is a compiler for C-- programming language. (You can see [C-- Documentation](https://github.com/kalhorghazal/C--Compiler/wiki/Cmm-Documentation))
 
-In [Phase 1](#phase1-lexer), the lexer of C-- is made in Cmm.g4 using [Antlr](https://github.com/antlr/antlr4)
+In [Phase 1](https://github.com/kalhorghazal/C--Compiler/tree/master/Phase1), the lexer of C-- is made in Cmm.g4 using [Antlr](https://github.com/antlr/antlr4)
 
-In [Phase 2](#phase2-semantics), the AST is constructed from lexical analysis and the symbol table is filled. Finally, it shows up semantic errors.
+In [Phase 2](https://github.com/kalhorghazal/C--Compiler/tree/master/Phase2), the AST is constructed from lexical analysis and the symbol table is filled. Finally, it shows up semantic errors.
 
-In [Phase 3](#phase3-type-checking), the remaining errors are shown and type-checking is done.
+In [Phase 3](https://github.com/kalhorghazal/C--Compiler/tree/master/Phase3), the remaining errors are shown and type-checking is done.
 
-In [Phase 4](#phase4-code-generation), Java bytecode of the C-- program will be generated.
+In [Phase 4](https://github.com/kalhorghazal/C--Compiler/tree/master/Phase4), Java bytecode of the C-- program will be generated.
 
 ## Phase 1 (Lexer)
 Checking grammar of language.
