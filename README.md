@@ -28,8 +28,7 @@ Checking grammar of language.
 * Reference to an undeclared variable
 * Unsupported usage of operand type 
 * Type-checking all conditions and statements
-* Unsupported usage of method calls
-* `writeln` type-checking
+* Unsupported usage of function calls
 * Not validation of left side of assignment
 * Return type validation
 * and all other compile errors...
